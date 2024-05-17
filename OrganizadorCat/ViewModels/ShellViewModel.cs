@@ -266,15 +266,15 @@ namespace OrganizadorCat.ViewModels
 
             var dbContext = MongoDBContext.Instance;
             var _usuarioRepository = new UsuarioRepository(dbContext);
-            
-            var usuario = UsuarioLogeado.Login(_usuarioRepository.GetUsuarioById("66367327ed1ba7ffb5518af1"));
-          
+
+            var usuario = UsuarioLogeado.Login(_usuarioRepository.GetUsuarioById("66466a0478499aa2997494e2"));
+
             var _equipoRepository = new EquipoRepository(dbContext);
 
             var data = _equipoRepository.GetEquiposPorUsuario(usuario);
             usuario.Equipos = data;
-            EquipoActual.SetearEquipo(usuario.Equipos[1]);
-       
+            EquipoActual.SetearEquipo(usuario.Equipos[0]);
+
         }
 
         private void OnLoaded()

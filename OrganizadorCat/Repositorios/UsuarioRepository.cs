@@ -22,8 +22,8 @@ namespace OrganizadorCat.Repositorios
             _usuariosCollection = dbContext.Usuarios;
 
             // Crear índice único en el campo Correo
-            //var correoIndexModel = new CreateIndexModel<Usuario>(Builders<Usuario>.IndexKeys.Ascending(u => u.Correo), new CreateIndexOptions { Unique = true });
-            //_usuariosCollection.Indexes.CreateOne(correoIndexModel);
+            var correoIndexModel = new CreateIndexModel<Usuario>(Builders<Usuario>.IndexKeys.Ascending(u => u.Correo), new CreateIndexOptions { Unique = true });
+            _usuariosCollection.Indexes.CreateOne(correoIndexModel);
         }
 
         public bool InsertUsuario(Usuario usuario)
