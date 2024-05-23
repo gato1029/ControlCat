@@ -267,7 +267,7 @@ namespace OrganizadorCat.ViewModels
             var dbContext = MongoDBContext.Instance;
             var _usuarioRepository = new UsuarioRepository(dbContext);
 
-            var usuario = UsuarioLogeado.Login(_usuarioRepository.GetUsuarioById("66466a0478499aa2997494e2"));
+            var usuario = UsuarioLogeado.Login(_usuarioRepository.GetUsuarioById("6636c7bc47728c78a1a650e9"));
 
             var _equipoRepository = new EquipoRepository(dbContext);
 

@@ -2,6 +2,7 @@
 using OrganizadorCat.ViewModel;
 using OrganizadorCat.ViewModels.Equipo;
 using Syncfusion.SfSkinManager;
+using Syncfusion.UI.Xaml.Scheduler;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,10 +31,19 @@ namespace OrganizadorCat.Views.Asignacion
         public AsignacionMainPage(AsignacionMainViewModel viewModelExt)
         {
             InitializeComponent();
-
+            
             DataContext = viewModelExt;
-           
+            this.Schedule.AppointmentEditorOpening += Schedule_AppointmentEditorOpening;
+
             SfSkinManager.SetTheme(this, new Theme(themeName));
+        }
+
+        private void Schedule_AppointmentEditorOpening(object? sender, AppointmentEditorOpeningEventArgs e)
+        {
+            e.Cancel = true;
+            var editor = new AsignacionScheduler(this.Schedule, e.Appointment, e.DateTime);
+            editor.ShowDialog();
+        
         }
     }
 }
