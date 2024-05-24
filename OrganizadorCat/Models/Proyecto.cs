@@ -15,8 +15,11 @@ namespace OrganizadorCat.Models
     {
         [BsonId]
         public ObjectId Id { get; set; }
-
+        [BsonIgnoreIfNull]
+        [BsonIgnoreIfDefault]
         public string Codigo { get; set; }
+        [BsonIgnoreIfNull]
+        [BsonIgnoreIfDefault]
         public string Nombre { get; set; }
         
         [BsonIgnoreIfNull]
@@ -38,6 +41,13 @@ namespace OrganizadorCat.Models
         [BsonIgnoreIfNull]
         [BsonIgnoreIfDefault]
         public Persona ClienteAsignado { get; set; }
+
+        public Proyecto()
+        { }
+        public Proyecto(ObjectId objectId)
+        {
+            Id = objectId;
+        }
         public bool Validar()
         {
             if (!Utilitarios.IsValidField(Nombre, ""))
@@ -45,6 +55,10 @@ namespace OrganizadorCat.Models
                 return false;
             }
             return true;
+        }
+        public override string ToString()
+        {
+            return Nombre;
         }
     }
 }

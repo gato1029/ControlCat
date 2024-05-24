@@ -8,6 +8,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="DeepCopy" Version="1.0.3" />
     <PackageReference Include="Material.Icons.WPF" Version="2.1.9" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.8" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />

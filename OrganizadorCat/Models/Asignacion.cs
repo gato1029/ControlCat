@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Syncfusion.Windows.Shared;
+using System.Windows.Media;
+using System.Collections.ObjectModel;
 
 namespace OrganizadorCat.Models
 {
@@ -20,9 +22,19 @@ namespace OrganizadorCat.Models
         
         public int Horas { get; set; }       
         public string Comentario { get; set; }
-        public Date FechaInicio { get; set; }
-        public Date FechaFin { get; set; }
+        public DateTime FechaInicio { get; set; }
+        public DateTime FechaFin { get; set; }
 
+        [BsonIgnore]
+        public Brush BackgroundColor { get; set; }
+        [BsonIgnore]
+        public Brush ForegroundColor { get; set; }
+
+        [BsonIgnore]
+        public  ObservableCollection<object> CalendarioScheduler { get; set; }
+
+        [BsonIgnore]
+        public string CalendarioNombre { get; set; }
         public bool Validar()
         {
             throw new NotImplementedException();

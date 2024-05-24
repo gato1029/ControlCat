@@ -24,7 +24,7 @@
             ItemsSource="{Binding Events}"
             ResourceCollection="{Binding Resources}"
             ResourceGroupType="Resource"
-            ViewType="TimelineWorkWeek">
+            ViewType="TimelineMonth">
 
 
 
@@ -32,22 +32,25 @@
                 <syncfusion:TimelineViewSettings
                     MinimumAppointmentDuration="0:30:0"
                     RowAutoHeight="True"
-                    RowMinHeight="100"
+                    RowMinHeight="75"
                     TimeIntervalSize="45" />
             </syncfusion:SfScheduler.TimelineViewSettings>
+            <syncfusion:SfScheduler.ResourceMapping>
+                <syncfusion:ResourceMapping
+                    Name="Nombre"
+                    Background="BackgroundColor"
+                    Foreground="ForegroundColor"
+                    Id="Id" />
+            </syncfusion:SfScheduler.ResourceMapping>
 
             <syncfusion:SfScheduler.AppointmentMapping>
                 <syncfusion:AppointmentMapping
-                    AppointmentBackground="Color"
-                    EndTime="To"
+                    AppointmentBackground="BackgroundColor"
+                    EndTime="FechaFin"
                     Foreground="ForegroundColor"
-                    IsAllDay="IsAllDay"
-                    RecurrenceExceptionDates="RecurrenceExceptions"
-                    RecurrenceId="RecurrenceId"
-                    RecurrenceRule="RecurrenceRule"
-                    ResourceIdCollection="Resources"
-                    StartTime="From"
-                    Subject="EventName" />
+                    ResourceIdCollection="CalendarioScheduler"
+                    StartTime="FechaInicio"
+                    Subject="CalendarioNombre" />
             </syncfusion:SfScheduler.AppointmentMapping>
         </syncfusion:SfScheduler>
 

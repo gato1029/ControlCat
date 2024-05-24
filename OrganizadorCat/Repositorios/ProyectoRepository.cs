@@ -24,9 +24,7 @@ namespace OrganizadorCat.Repositorios
             MessageBoxCat msg = new MessageBoxCat();
             try
             {
-                proyecto.Equipo.Integrantes = null;             
                 _proyectoCollection.InsertOne(proyecto);
-
                 msg.Mensaje("Proyecto insertado correctamente.");
                 return true;
             }
@@ -52,7 +50,12 @@ namespace OrganizadorCat.Repositorios
         {
             return _proyectoCollection.Find(new BsonDocument()).ToList();
         }
-
+        public List<Proyecto> GetProyectosByEquipo(Equipo equipo)
+        {
+            var builder = Builders<Proyecto>.Filter;
+            var filter = builder.Eq(f => f.Equipo.Id,equipo.Id);
+            return _proyectoCollection.Find(filter).ToList();
+        }
         public Proyecto GetProyectoById(string id)
         {
             var objectId = new ObjectId(id);

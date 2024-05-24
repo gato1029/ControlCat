@@ -50,7 +50,7 @@ namespace OrganizadorCat.ViewModels.Proyecto
 
         private void CargarProyectos()
         {
-            var proyectos = _proyectoRepository.GetProyectosPorPagina(1, 20);
+            var proyectos = _proyectoRepository.GetProyectosByEquipo(EquipoActual.Instance.EquipoVigente);
             Proyectos.Clear();
             foreach (var proyecto in proyectos)
             {

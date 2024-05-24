@@ -22,7 +22,7 @@ namespace OrganizadorCat.ViewModels.Proyecto
         public ProyectoViewModel()
         {
             _proyecto = new Models.Proyecto();
-            _proyecto.Equipo = EquipoActual.EquipoVigente;
+            _proyecto.Equipo = EquipoActual.Instance.EquipoVigente;
             _proyecto.FechaInicio = DateTime.Now;
             _proyecto.FechaFin = DateTime.Now;
             InitCommandos();

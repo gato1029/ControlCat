@@ -1,8 +1,10 @@
 ﻿using BTCat.Generico;
+using MongoDB.Bson;
 using OrganizadorCat.Helpers;
 using OrganizadorCat.Models;
 using OrganizadorCat.Properties;
 using OrganizadorCat.Repositorios;
+using OrganizadorCat.Views;
 using Syncfusion.UI.Xaml.Scheduler;
 using Syncfusion.Windows.Controls.Input;
 using System;
@@ -17,41 +19,58 @@ namespace OrganizadorCat.ViewModel
 {
     public class AsignacionMainViewModel : Observable
     {
-        private ObservableCollection<object> resources;
+        private ObservableCollection<Usuario> resources;
 
         private MongoDBContext dbContext = MongoDBContext.Instance;
         private List<Models.Usuario> _integrantesEquipoActual;
         public AsignacionMainViewModel()
-        {
-            
-            _integrantesEquipoActual = EquipoActual.EquipoVigente.Integrantes;
-            
+        {                                    
             CreateColorCollection(); 
             InitializeResources();
         }
 
-        public ObservableCollection<object> Resources { get => resources; set => Set(ref resources, value); }
+        public ObservableCollection<Usuario> Resources { get => resources; set => Set(ref resources, value); }
         public List<Models.Usuario> IntegrantesEquipoActual { get => _integrantesEquipoActual; set => Set(ref _integrantesEquipoActual, value); }
 
         private void InitializeResources()
         {
             Random random = new Random();
             var usuarioRepositorio = new UsuarioRepository(dbContext);
-            this.Resources = new ObservableCollection<object>();
+            _integrantesEquipoActual = EquipoActual.Instance.EquipoVigente.Integrantes;
+            this.Resources = new ObservableCollection<Usuario>();
             int i = 1;
             foreach (var item in _integrantesEquipoActual)
             {
                 var item2 =usuarioRepositorio.GetUsuarioById(item.Id.ToString());
 
-                var data = new SchedulerResource();
-                data.Name = item2.Nombre;
-                data.Id = item2.Id.ToString();
-                data.Background = colorCollection[i+2];
-                data.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFFFF"));
-                Resources.Add(data);
+                //var data = new SchedulerResource();
+                //data.Name = item2.Nombre;
+                //data.Id = item2.Id.ToString();
+                //data.Background = colorCollection[i+2];
+                item2.ForegroundColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFFFF"));
+                item2.BackgroundColor = colorCollection[i + 2];
+                Resources.Add(item2);
                 i++;
             }
-        
+
+
+            events = new ObservableCollection<Asignacion>();
+            var asignacionRepositorio = new AsignacionRepository(dbContext);
+             i = 1;
+            foreach (var item in asignacionRepositorio.GetAsignacionesPorEquipo(EquipoActual.Instance.EquipoVigente))
+            {
+                item.ForegroundColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFFFF"));
+                item.BackgroundColor = colorCollection[i + 2];
+                item.CalendarioScheduler = new ObservableCollection<object>
+                {
+                    item.Usuario.Id
+                };
+                item.CalendarioNombre = "gato";
+                events.Add(item);
+            }
+
+
+
         }
         private List<Brush> colorCollection;
         private void CreateColorCollection()
@@ -76,9 +95,9 @@ namespace OrganizadorCat.ViewModel
 
         public DateTime DisplayDate { get => displayDate; set => Set(ref displayDate, value); }
 
-        private System.Collections.IEnumerable events;
+        private ObservableCollection<Asignacion> events;
 
-        public System.Collections.IEnumerable Events { get => events; set => Set(ref events, value); }
+        public ObservableCollection<Asignacion> Events { get => events; set => Set(ref events, value); }
 
     }
 

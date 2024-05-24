@@ -47,5 +47,10 @@ namespace BTCat.Generico
         {
             get { return _database.GetCollection<Proyecto>("Proyecto"); }
         }
+        public IMongoCollection<Asignacion> Asignaciones
+        {
+            get { return _database.GetCollection<Asignacion>("Asignacion"); }
+        }
+
     }
 }

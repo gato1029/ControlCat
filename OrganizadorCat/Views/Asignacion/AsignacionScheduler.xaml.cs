@@ -1,9 +1,14 @@
-﻿using Syncfusion.SfSkinManager;
+﻿using BTCat.Generico;
+using OrganizadorCat.Helpers;
+using OrganizadorCat.Repositorios;
+using Syncfusion.SfSkinManager;
 using Syncfusion.UI.Xaml.Scheduler;
+using Syncfusion.Windows.Controls.Input;
 using Syncfusion.Windows.Shared;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +36,7 @@ namespace OrganizadorCat.Views.Asignacion
             InitializeComponent();
             this.scheduler = scheduler;
             this.appointment = appointment;
+            CargarCombos();
             SfSkinManager.SetTheme(this, new Theme(themeName));
             if (appointment!= null)
             {
@@ -61,9 +67,39 @@ namespace OrganizadorCat.Views.Asignacion
             }
         }
 
+        private void CargarCombos()
+        {            
+            var dbContext = MongoDBContext.Instance;
+            var proyectoRepository = new ProyectoRepository(dbContext);
+           
+
+            foreach (var item in EquipoActual.Instance.EquipoVigente.Integrantes)
+            {
+                ComboUsuario.Items.Add(item);
+            }
+            foreach (var item in proyectoRepository.GetProyectosByEquipo(EquipoActual.Instance.EquipoVigente))
+            {
+                ComboProyecto.Items.Add(item);
+            }
+            
+        }
         private void GuardarButton_Click(object sender, RoutedEventArgs e)
         {
+            var dbContext = MongoDBContext.Instance;
+            var asignacionRepository = new AsignacionRepository(dbContext);
 
+            Models.Asignacion asignacion = new Models.Asignacion
+            {
+                Id = new MongoDB.Bson.ObjectId(),
+                Comentario = Comentario.Text,
+                Usuario = (Models.Usuario)ComboUsuario.SelectedItem,
+                Proyecto = (Models.Proyecto)ComboProyecto.SelectedItem,
+                FechaInicio = FechaInicio.DateTime.Value,
+                FechaFin = FechaFin.DateTime.Value,
+                Horas = (int) HorasAsignadas.Value
+            };
+            asignacionRepository.InsertAsignacion(asignacion);
+            this.Close();
         }
 
         private void EliminarButton_Click(object sender, RoutedEventArgs e)

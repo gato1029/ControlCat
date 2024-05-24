@@ -107,8 +107,8 @@
                     ErrorText="Ingrese un comentario"
                     Foreground="LightSeaGreen"
                     HasError="{Binding Equipo.Nombre, Converter={StaticResource StringValidateConverter}}"
-                    Hint="Ingrese el nombre">
-                    <TextBox Text="{Binding Equipo.Nombre, UpdateSourceTrigger=PropertyChanged}" />
+                    Hint="Si tiene algun comentario Ingresarlo.">
+                    <TextBox x:Name="Comentario" />
                 </syncfusion:SfTextInputLayout>
             </StackPanel>
             <StackPanel

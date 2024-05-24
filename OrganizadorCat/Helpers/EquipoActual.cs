@@ -35,9 +35,9 @@ namespace OrganizadorCat.Helpers
             }
         }
 
-        public static Equipo EquipoVigente
+        public Equipo EquipoVigente
         {
-            get { return _instance._equipoActual; }
+            get { return DeepCopy.DeepCopier.Copy(_equipoActual); }
             set { _instance._equipoActual = value; }
         }
 
