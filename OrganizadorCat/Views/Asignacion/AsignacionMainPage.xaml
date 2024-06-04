@@ -8,21 +8,26 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
     xmlns:vm="clr-namespace:OrganizadorCat.ViewModel"
-    d:DataContext="{d:DesignInstance Type=vm:AsignacionMainViewModel}"
     d:DesignHeight="450"
     d:DesignWidth="700"
     mc:Ignorable="d">
-
+    <Page.Resources>
+        <vm:AsignacionMainViewModel x:Key="viewModel" />
+        <converter:IdToStringConverter x:Key="IdToStringConverter" />
+    </Page.Resources>
+    <Page.DataContext>
+        <StaticResource ResourceKey="viewModel" />
+    </Page.DataContext>
     <Grid>
 
         <syncfusion:SfScheduler
             x:Name="Schedule"
             AllowedViewTypes="TimelineDay,TimelineWeek,TimelineWorkWeek,TimelineMonth,Month"
-            AppointmentEditFlag="Add,Edit,Resize"
+            AppointmentEditFlag="Add,Edit"
             CalendarIdentifier="GregorianCalendar"
-            DisplayDate="{Binding DisplayDate}"
-            ItemsSource="{Binding Events}"
-            ResourceCollection="{Binding Resources}"
+            DisplayDate="{Binding DisplayDate, Source={StaticResource viewModel}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            ItemsSource="{Binding Events, Source={StaticResource viewModel}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            ResourceCollection="{Binding Resources, Source={StaticResource viewModel}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             ResourceGroupType="Resource"
             ViewType="TimelineMonth">
 
@@ -33,7 +38,8 @@
                     MinimumAppointmentDuration="0:30:0"
                     RowAutoHeight="True"
                     RowMinHeight="75"
-                    TimeIntervalSize="45" />
+                    TimeIntervalSize="45"
+                    ViewHeaderDayFormat="true" />
             </syncfusion:SfScheduler.TimelineViewSettings>
             <syncfusion:SfScheduler.ResourceMapping>
                 <syncfusion:ResourceMapping
@@ -48,6 +54,7 @@
                     AppointmentBackground="BackgroundColor"
                     EndTime="FechaFin"
                     Foreground="ForegroundColor"
+                    IsAllDay="DiaCompleto"
                     ResourceIdCollection="CalendarioScheduler"
                     StartTime="FechaInicio"
                     Subject="CalendarioNombre" />

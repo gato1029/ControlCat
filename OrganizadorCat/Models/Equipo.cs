@@ -25,6 +25,11 @@ namespace OrganizadorCat.Models
         [BsonIgnoreIfNull]
         [BsonIgnoreIfDefault]
         public List<Usuario> Integrantes { get; set; }
+
+        [BsonIgnoreIfNull]
+        [BsonIgnoreIfDefault]
+        public string Areas { get; set; }
+
         public Equipo(ObjectId id)
         {
             Id = id;
@@ -36,6 +41,10 @@ namespace OrganizadorCat.Models
         public bool Validar()
         {          
             if (!Utilitarios.IsValidField(Nombre, ""))
+            {
+                return false;
+            }
+            if (!Utilitarios.IsValidField(Areas, ""))
             {
                 return false;
             }

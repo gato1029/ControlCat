@@ -17,13 +17,20 @@ namespace OrganizadorCat.Models
         [BsonId]
         public ObjectId Id { get; set; }
 
-        public Proyecto Proyecto { get; set; } 
+        [BsonIgnoreIfNull]
+        [BsonIgnoreIfDefault]
+        public Proyecto Proyecto { get; set; }
+        public Equipo Equipo { get; set; }
         public Usuario Usuario { get; set; }
         
-        public int Horas { get; set; }       
+        public int Horas { get; set; }
+        public bool DiaCompleto { get; set; }
+        public bool Vacaciones { get; set; }
         public string Comentario { get; set; }
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
+
+        public string ColorBarra { get; set; }
 
         [BsonIgnore]
         public Brush BackgroundColor { get; set; }
@@ -35,6 +42,14 @@ namespace OrganizadorCat.Models
 
         [BsonIgnore]
         public string CalendarioNombre { get; set; }
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+                return false;
+
+            var other = (Asignacion)obj;
+            return Id == other.Id;
+        }
         public bool Validar()
         {
             throw new NotImplementedException();

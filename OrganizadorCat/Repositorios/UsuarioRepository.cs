@@ -66,6 +66,13 @@ namespace OrganizadorCat.Repositorios
             var usuario = _usuariosCollection.Find<Usuario>(u => u.Id == objectId).FirstOrDefault();        
             return usuario;
         }
+
+        public Usuario GetUsuarioByCorreo(string correo)
+        {
+           
+            var usuario = _usuariosCollection.Find<Usuario>(u => u.Correo == correo).FirstOrDefault();
+            return usuario;
+        }
         public List<Usuario> GetUsuariosPorPagina(int paginaNumero, int elementosPorPagina)
         {
             return _usuariosCollection.Find(new BsonDocument())

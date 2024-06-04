@@ -56,6 +56,17 @@
                     <TextBox Text="{Binding Equipo.Nombre, UpdateSourceTrigger=PropertyChanged}" />
                 </syncfusion:SfTextInputLayout>
             </StackPanel>
+            <StackPanel Grid.Row="1">
+                <TextBlock Margin="5" Text="Areas:" />
+                <syncfusion:SfTextInputLayout
+                    ErrorForeground="IndianRed"
+                    ErrorText="Ingrese un valor como minimo."
+                    Foreground="LightSeaGreen"
+                    HasError="{Binding Equipo.Areas, Converter={StaticResource StringValidateConverter}}"
+                    Hint="Ingrese los valores separados por ;">
+                    <TextBox Text="{Binding Equipo.Areas, UpdateSourceTrigger=PropertyChanged}" />
+                </syncfusion:SfTextInputLayout>
+            </StackPanel>
             <StackPanel Grid.Row="3" Height="150">
                 <TextBlock Margin="5" Text="Integrantes:" />
                 <syncfusion:SfTextBoxExt

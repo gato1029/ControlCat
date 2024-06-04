@@ -21,6 +21,9 @@ using OrganizadorCat.Views.Asignacion;
 using OrganizadorCat.Views.Equipo;
 using OrganizadorCat.Views.Proyecto;
 using OrganizadorCat.Views.Usuario;
+using OrganizadorCat.ViewModels.Dashboard;
+using OrganizadorCat.Views.Dashboard;
+using OrganizadorCat.Views.Login;
 
 namespace OrganizadorCat
 {
@@ -45,6 +48,8 @@ namespace OrganizadorCat
 
         private async void OnStartup(object sender, StartupEventArgs e)
         {
+
+       
             var appLocation = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 
             // For more information about .NET generic host see  https://docs.microsoft.com/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-3.0
@@ -82,8 +87,11 @@ namespace OrganizadorCat
             services.AddTransient<IShellWindow, ShellWindow>();
             services.AddTransient<ShellViewModel>();
 
-            services.AddTransient<MainViewModel>();
-            services.AddTransient<MainPage>();
+            services.AddTransient<InicioViewModel>();
+            services.AddTransient<Inicio>();
+
+            //services.AddTransient<MainViewModel>();
+            //services.AddTransient<MainPage>();
 
             services.AddTransient<SettingsViewModel>();
             services.AddTransient<SettingsPage>();
@@ -124,6 +132,9 @@ namespace OrganizadorCat
 
             services.AddTransient<AsignacionMainViewModel>();
             services.AddTransient<AsignacionMainPage>();
+
+
+         
 
             services.AddTransient<IShellDialogWindow, ShellDialogWindow>();
             services.AddTransient<ShellDialogViewModel>();

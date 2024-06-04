@@ -25,7 +25,7 @@ namespace OrganizadorCat.ViewModel
         private List<Models.Usuario> _integrantesEquipoActual;
         public AsignacionMainViewModel()
         {                                    
-            CreateColorCollection(); 
+       
             InitializeResources();
         }
 
@@ -42,13 +42,9 @@ namespace OrganizadorCat.ViewModel
             foreach (var item in _integrantesEquipoActual)
             {
                 var item2 =usuarioRepositorio.GetUsuarioById(item.Id.ToString());
-
-                //var data = new SchedulerResource();
-                //data.Name = item2.Nombre;
-                //data.Id = item2.Id.ToString();
-                //data.Background = colorCollection[i+2];
+      
                 item2.ForegroundColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFFFF"));
-                item2.BackgroundColor = colorCollection[i + 2];
+                item2.BackgroundColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#005187"));
                 Resources.Add(item2);
                 i++;
             }
@@ -60,32 +56,27 @@ namespace OrganizadorCat.ViewModel
             foreach (var item in asignacionRepositorio.GetAsignacionesPorEquipo(EquipoActual.Instance.EquipoVigente))
             {
                 item.ForegroundColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFFFF"));
-                item.BackgroundColor = colorCollection[i + 2];
+                item.BackgroundColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(item.ColorBarra));
+                var data = item.BackgroundColor.ToString();
                 item.CalendarioScheduler = new ObservableCollection<object>
                 {
                     item.Usuario.Id
                 };
-                item.CalendarioNombre = "gato";
+                if (item.Proyecto != null)
+                {
+                    item.CalendarioNombre = item.Proyecto.ToString();
+                }
+                else
+                {
+                    item.CalendarioNombre = "Vacaciones";
+                }
                 events.Add(item);
             }
 
 
 
         }
-        private List<Brush> colorCollection;
-        private void CreateColorCollection()
-        {
-            this.colorCollection = new List<Brush>();
-            this.colorCollection.Add(new SolidColorBrush(Color.FromRgb(133, 81, 242)));
-            this.colorCollection.Add(new SolidColorBrush(Color.FromRgb(140, 245, 219)));
-            this.colorCollection.Add(new SolidColorBrush(Color.FromRgb(83, 99, 250)));
-            this.colorCollection.Add(new SolidColorBrush(Color.FromRgb(255, 222, 133)));
-            this.colorCollection.Add(new SolidColorBrush(Color.FromRgb(45, 153, 255)));
-            this.colorCollection.Add(new SolidColorBrush(Color.FromRgb(253, 183, 165)));
-            this.colorCollection.Add(new SolidColorBrush(Color.FromRgb(198, 237, 115)));
-            this.colorCollection.Add(new SolidColorBrush(Color.FromRgb(253, 185, 222)));
-            this.colorCollection.Add(new SolidColorBrush(Color.FromRgb(83, 99, 250)));
-        }
+
 
         private System.Collections.IEnumerable resourceAppointments;
 

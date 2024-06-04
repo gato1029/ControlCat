@@ -15,6 +15,8 @@ using OrganizadorCat.Views.Asignacion;
 using OrganizadorCat.Views.Equipo;
 using OrganizadorCat.Views.Proyecto;
 using OrganizadorCat.Views.Usuario;
+using OrganizadorCat.ViewModels.Dashboard;
+using OrganizadorCat.Views.Dashboard;
 
 namespace OrganizadorCat.Services
 {
@@ -40,6 +42,7 @@ namespace OrganizadorCat.Services
             Configure<EquipoMainViewModel, EquipoMainPage>();
             Configure<ProyectoMainViewModel, ProyectoMainPage>();
             Configure<AsignacionMainViewModel, AsignacionMainPage>();
+            Configure<InicioViewModel, Inicio>();
         }
 
         public Type GetPageType(string key)

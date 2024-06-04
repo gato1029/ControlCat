@@ -11,8 +11,8 @@
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
     xmlns:vm="clr-namespace:OrganizadorCat.ViewModels.Proyecto"
     Title="ProyectoVentana"
-    Width="400"
-    Height="680"
+    Width="500"
+    Height="850"
     d:DataContext="{d:DesignInstance Type=vm:ProyectoViewModel}"
     AllowsTransparency="True"
     CornerRadius="8"
@@ -21,6 +21,7 @@
     ShowIcon="False"
     ShowMaximizeButton="False"
     ShowMinimizeButton="False"
+    SizeToContent="WidthAndHeight"
     Style="{StaticResource CustomMetroWindow}"
     UseNativeChrome="True"
     WindowStartupLocation="CenterOwner"
@@ -42,6 +43,8 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0">
                 <TextBlock Margin="5" Text="Codigo del Proyecto:" />
@@ -56,23 +59,49 @@
                     <TextBox Text="{Binding Proyecto.Codigo, UpdateSourceTrigger=PropertyChanged}" />
                 </syncfusion:SfTextInputLayout>
             </StackPanel>
-            <StackPanel Grid.Row="1">
-                <TextBlock Margin="5" Text="Cliente Asignado:" />
-                <syncfusion:SfTextInputLayout
-                    Width="200"
-                    HorizontalAlignment="Left"
-                    ErrorForeground="IndianRed"
-                    ErrorText="Seleccione el Cliente:"
-                    Foreground="LightSeaGreen"
-                    HasError="{Binding Proyecto.ClienteAsignado.Nombre, Converter={StaticResource StringValidateConverter}}"
-                    Hint="Seleccione el cliente.">
-                    <syncfusion:ComboBoxAdv
-                        DisplayMemberPath="Country"
-                        ItemsSource="{Binding Proyecto.ClienteAsignado, UpdateSourceTrigger=PropertyChanged}"
-                        Text="{Binding Proyecto.Codigo, UpdateSourceTrigger=PropertyChanged}" />
-                </syncfusion:SfTextInputLayout>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <StackPanel>
+                    <TextBlock Margin="5" Text="Cliente Asignado:" />
+                    <syncfusion:SfTextInputLayout
+                        Width="200"
+                        HorizontalAlignment="Left"
+                        ErrorForeground="IndianRed"
+                        ErrorText="Seleccione el Cliente:"
+                        Foreground="LightSeaGreen"
+                        HasError="{Binding Proyecto.ClienteAsignado.Nombre, Converter={StaticResource StringValidateConverter}}"
+                        Hint="Seleccione el cliente.">
+                        <syncfusion:ComboBoxAdv ItemsSource="{Binding Proyecto.ClienteAsignado, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Proyecto.Codigo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                    </syncfusion:SfTextInputLayout>
+                </StackPanel>
             </StackPanel>
-            <StackPanel Grid.Row="2">
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <StackPanel>
+                    <TextBlock Margin="5" Text="Area de Trabajo:" />
+                    <syncfusion:SfTextInputLayout
+                        Width="200"
+                        HorizontalAlignment="Left"
+                        ErrorForeground="IndianRed"
+                        ErrorText="Seleccione un Area"
+                        Foreground="LightSeaGreen"
+                        HasError="{Binding Proyecto.Area, Converter={StaticResource StringValidateConverter}}"
+                        Hint="Seleccione un Area de trabajo">
+                        <syncfusion:ComboBoxAdv ItemsSource="{Binding ArrayAreas, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Proyecto.Area, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                    </syncfusion:SfTextInputLayout>
+                </StackPanel>
+                <StackPanel Margin="20,0,0,0">
+                    <TextBlock Margin="5" Text="Estado:" />
+                    <syncfusion:SfTextInputLayout
+                        Width="150"
+                        HorizontalAlignment="Left"
+                        ErrorForeground="IndianRed"
+                        ErrorText="Seleccione un estado:"
+                        Foreground="LightSeaGreen"
+                        Hint="Seleccione un estado">
+                        <syncfusion:ComboBoxAdv ItemsSource="{Binding ArrayEstados, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding Proyecto.Estado, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                    </syncfusion:SfTextInputLayout>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Grid.Row="3">
                 <TextBlock Margin="5" Text="Nombre:" />
                 <syncfusion:SfTextInputLayout
                     ErrorForeground="IndianRed"
@@ -83,7 +112,7 @@
                     <TextBox Text="{Binding Proyecto.Nombre, UpdateSourceTrigger=PropertyChanged}" />
                 </syncfusion:SfTextInputLayout>
             </StackPanel>
-            <StackPanel Grid.Row="3" Orientation="Horizontal">
+            <StackPanel Grid.Row="4" Orientation="Horizontal">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto" />
@@ -111,9 +140,17 @@
                     </syncfusion:SfTextInputLayout>
                 </StackPanel>
             </StackPanel>
-            <StackPanel Grid.Row="4" Orientation="Horizontal">
-
+            <StackPanel Grid.Row="5" Orientation="Horizontal">
                 <StackPanel>
+                    <TextBlock Margin="5" Text="Fecha Recepcion:" />
+                    <syncfusion:SfTextInputLayout
+                        Width="120"
+                        ErrorForeground="IndianRed"
+                        Foreground="LightSeaGreen">
+                        <syncfusion:DateTimeEdit DateTime="{Binding Proyecto.FechaRecepcion, UpdateSourceTrigger=PropertyChanged}" />
+                    </syncfusion:SfTextInputLayout>
+                </StackPanel>
+                <StackPanel Margin="20,0,0,0">
                     <TextBlock Margin="5" Text="Fecha Inicio:" />
                     <syncfusion:SfTextInputLayout
                         Width="120"
@@ -132,9 +169,18 @@
                     </syncfusion:SfTextInputLayout>
                 </StackPanel>
             </StackPanel>
-
+            <StackPanel Grid.Row="6">
+                <TextBlock Margin="5" Text="Comentario:" />
+                <syncfusion:SfTextInputLayout Foreground="LightSeaGreen" Hint="Ingresa un comentario si lo necesitas.">
+                    <TextBox
+                        HorizontalScrollBarVisibility="Disabled"
+                        Text="{Binding Proyecto.Comentario, UpdateSourceTrigger=PropertyChanged}"
+                        TextWrapping="Wrap"
+                        VerticalScrollBarVisibility="Auto" />
+                </syncfusion:SfTextInputLayout>
+            </StackPanel>
             <StackPanel
-                Grid.Row="5"
+                Grid.Row="7"
                 Margin="10"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"

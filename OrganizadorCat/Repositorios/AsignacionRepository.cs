@@ -24,10 +24,23 @@ namespace OrganizadorCat.Repositorios
             MessageBoxCat msg = new MessageBoxCat();
             try
             {
-                Proyecto proyecto = new Proyecto(asignacion.Proyecto.Id);
-                proyecto.Equipo = new Equipo(asignacion.Proyecto.Equipo.Id);
+                Proyecto proyecto = null;
+                if (!asignacion.Vacaciones)
+                {
+                    proyecto = new Proyecto(asignacion.Proyecto.Id);
+                    proyecto.Codigo = asignacion.Proyecto.Codigo;
+                    proyecto.Nombre = asignacion.Proyecto.Nombre;
+                }
+                                
+                Equipo equipo = new Equipo(asignacion.Equipo.Id);
+                equipo.Nombre = asignacion.Equipo.Nombre;                
+
+                Usuario usuario = new Usuario(asignacion.Usuario.Id);
+                usuario.Nombre = asignacion.Usuario.Nombre;                                
+                asignacion.Usuario = usuario;
+                asignacion.Equipo  = equipo;
                 asignacion.Proyecto = proyecto;
-                asignacion.Usuario = new Usuario(asignacion.Usuario.Id);
+                asignacion.DiaCompleto = true;
                 _asignacionCollection.InsertOne(asignacion);
 
                 msg.Mensaje("Asignacion insertado correctamente.");
@@ -83,7 +96,7 @@ namespace OrganizadorCat.Repositorios
         public List<Asignacion> GetAsignacionesPorEquipo(Equipo equipo)
         {
             var builder = Builders<Asignacion>.Filter;
-            var filter = builder.Eq(f => f.Proyecto.Equipo.Id, equipo.Id);
+            var filter = builder.Eq(f => f.Equipo.Id, equipo.Id);
             return _asignacionCollection.Find(filter).ToList();
         }
         public bool UpdateAsignacion(string id, Asignacion asignacion)
@@ -91,10 +104,24 @@ namespace OrganizadorCat.Repositorios
             MessageBoxCat msg = new MessageBoxCat();
             try
             {
-                Proyecto proyecto = new Proyecto(asignacion.Proyecto.Id);
-                proyecto.Equipo = new Equipo(asignacion.Proyecto.Equipo.Id);
+                Proyecto proyecto = null;
+                if (!asignacion.Vacaciones)
+                {
+                    proyecto = new Proyecto(asignacion.Proyecto.Id);
+                    proyecto.Codigo = asignacion.Proyecto.Codigo;
+                    proyecto.Nombre = asignacion.Proyecto.Nombre;
+                }
+
+                Equipo equipo = new Equipo(asignacion.Equipo.Id);
+                equipo.Nombre = asignacion.Equipo.Nombre;
+
+                Usuario usuario = new Usuario(asignacion.Usuario.Id);
+                usuario.Nombre = asignacion.Usuario.Nombre;
+                asignacion.Usuario = usuario;
+                asignacion.Equipo = equipo;
                 asignacion.Proyecto = proyecto;
-                asignacion.Usuario = new Usuario(asignacion.Usuario.Id);
+                asignacion.DiaCompleto = true;
+
                 var objectId = new ObjectId(id);
                 _asignacionCollection.ReplaceOne(u => u.Id == objectId, asignacion);
                 msg.Mensaje("Asignacion actualizado correctamente.");

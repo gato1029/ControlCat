@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net7.0-windows</TargetFramework>
@@ -39,6 +39,7 @@
     <PackageReference Include="Syncfusion.Tools.WPF" Version="25.1.42" />
       <PackageReference Include="Syncfusion.SfTextInputLayout.WPF" Version="25.1.42" />
     <PackageReference Include="Syncfusion.SfScheduler.WPF" Version="25.1.42" />
+    <PackageReference Include="Syncfusion.SfColorPalette.WPF" Version="25.1.42" />
 </ItemGroup>
 
   <ItemGroup>

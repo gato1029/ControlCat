@@ -2,6 +2,7 @@
 using MongoDB.Bson;
 using OrganizadorCat.Helpers;
 using OrganizadorCat.Repositorios;
+using OrganizadorCat.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -25,13 +26,36 @@ namespace OrganizadorCat.ViewModels.Proyecto
             _proyecto.Equipo = EquipoActual.Instance.EquipoVigente;
             _proyecto.FechaInicio = DateTime.Now;
             _proyecto.FechaFin = DateTime.Now;
+            _proyecto.FechaRecepcion = DateTime.Now;
             InitCommandos();
+            InitCombos();
+            _proyecto.Estado = "Analisis";
+            if (arrayAreas.Count>0)
+            {
+                _proyecto.Area = arrayAreas[0];
+            }            
+        }
+
+        private void InitCombos()
+        {
+            arrayAreas = new ObservableCollection<string>();
+
+            foreach (var item in EquipoActual.Instance.EquipoVigente.Areas.Split(";"))
+            {
+                arrayAreas.Add(item);
+            }    
+
+            arrayEstados = new ObservableCollection<string>
+            {
+                 "Analisis", "Sin Asignar", "Desarrollo", "Concluido", "Enviado" 
+            };
         }
 
         public ProyectoViewModel(Models.Proyecto proyecto)
         {
             _proyecto = proyecto;
             InitCommandos();
+            InitCombos();
             //itemsSeleccionados = Utilitarios.ListToObservable(proyecto.Integrantes);
         }
 
@@ -109,5 +133,13 @@ namespace OrganizadorCat.ViewModels.Proyecto
 
             ItemsSeleccionados = new ObservableCollection<object>();
         }
+
+        private ObservableCollection<string> arrayEstados;
+
+        public ObservableCollection<string> ArrayEstados { get => arrayEstados; set => Set(ref arrayEstados, value); }
+
+        private ObservableCollection<string> arrayAreas;
+
+        public ObservableCollection<string> ArrayAreas { get => arrayAreas; set => Set(ref arrayAreas, value); }
     }
 }

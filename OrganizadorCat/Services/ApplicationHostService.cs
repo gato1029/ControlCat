@@ -9,6 +9,9 @@ using OrganizadorCat.Contracts.Services;
 using OrganizadorCat.Contracts.Views;
 using OrganizadorCat.Models;
 using OrganizadorCat.ViewModels;
+using OrganizadorCat.ViewModels.Dashboard;
+using OrganizadorCat.Views;
+using OrganizadorCat.Views.Login;
 
 namespace OrganizadorCat.Services
 {
@@ -32,6 +35,8 @@ namespace OrganizadorCat.Services
         {
             // Initialize services that you need before app activation
             await InitializeAsync();
+
+          
 
             await HandleActivationAsync();
 
@@ -60,13 +65,26 @@ namespace OrganizadorCat.Services
 
         private async Task HandleActivationAsync()
         {
+       
+
             if (App.Current.Windows.OfType<IShellWindow>().Count() == 0)
             {
                 // Default activation that navigates to the apps default page
                 _shellWindow = _serviceProvider.GetService(typeof(IShellWindow)) as IShellWindow;
-                _navigationService.Initialize(_shellWindow.GetNavigationFrame());
-                _shellWindow.ShowWindow();
-                _navigationService.NavigateTo(typeof(MainViewModel).FullName);
+                _navigationService.Initialize(_shellWindow.GetNavigationFrame());                
+                _navigationService.NavigateTo(typeof(InicioViewModel).FullName);
+
+                Login login = new Login();
+                login.ShowDialog();
+                if (login.DialogResult == true)
+                {
+                    _shellWindow.ShowWindow();
+                }
+                else
+                {
+                    _shellWindow.CloseWindow();
+                }    
+                
                 await Task.CompletedTask;
             }
         }

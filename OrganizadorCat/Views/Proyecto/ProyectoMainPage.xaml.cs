@@ -24,7 +24,7 @@ namespace OrganizadorCat.Views.Proyecto
     /// Lógica de interacción para ProyectoMainPage.xaml
     /// </summary>
     /// 
-    public class CustomCopyPaste : GridCutCopyPaste
+    public partial class CustomCopyPaste : GridCutCopyPaste
     {
         public CustomCopyPaste(SfDataGrid DataGrid)
             : base(DataGrid)
@@ -81,8 +81,11 @@ namespace OrganizadorCat.Views.Proyecto
 
             DataContext = viewModelExt;
             this.dataGrid.GridCopyPaste = new CustomCopyPaste(this.dataGrid);
+            this.dataGrid.FontSize = 30;
             this.dataGrid.CopyGridCellContent += dataGrid_CopyGridCellContent;
-            SfSkinManager.SetTheme(this, new Theme(themeName));
+            Theme t = new Theme(themeName);
+           
+            SfSkinManager.SetTheme(this, t);
         }
     }
 }

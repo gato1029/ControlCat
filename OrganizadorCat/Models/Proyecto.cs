@@ -24,10 +24,29 @@ namespace OrganizadorCat.Models
         
         [BsonIgnoreIfNull]
         [BsonIgnoreIfDefault]
+
+        public string Estado { get; set; }
+
+        [BsonIgnoreIfNull]
+        [BsonIgnoreIfDefault]
+
+        public string Comentario { get; set; }
+
+        [BsonIgnoreIfNull]
+        [BsonIgnoreIfDefault]
         public int HorasEstimadas { get; set; }
         [BsonIgnoreIfNull]
         [BsonIgnoreIfDefault]
         public int HorasReales { get; set; }
+        [BsonIgnoreIfNull]
+        [BsonIgnoreIfDefault]
+
+        public string Area { get; set; }
+
+        [BsonIgnoreIfNull]
+        [BsonIgnoreIfDefault]
+        public DateTime FechaRecepcion { get; set; }
+
         [BsonIgnoreIfNull]
         [BsonIgnoreIfDefault]
         public DateTime FechaInicio { get; set; }
@@ -48,17 +67,25 @@ namespace OrganizadorCat.Models
         {
             Id = objectId;
         }
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+                return false;
+
+            var otherUsuario = (Proyecto)obj;
+            return Id == otherUsuario.Id;
+        }
         public bool Validar()
         {
             if (!Utilitarios.IsValidField(Nombre, ""))
             {
                 return false;
-            }
+            }            
             return true;
         }
         public override string ToString()
         {
-            return Nombre;
+            return Codigo+"-"+Nombre;
         }
     }
 }

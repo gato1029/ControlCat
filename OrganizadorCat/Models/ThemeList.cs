@@ -10,21 +10,22 @@ namespace OrganizadorCat.Models
             List<string> themeList = new List<string>()
             {
                 "Windows11 Light",
-                "Windows11 Dark",
-                "Material Light",
-                "Material Dark",
-                "Material Light Blue",
-                "Material Dark Blue",
-                "Office 2019 Colorful",
-                "Office 2019 Black",
-                "Office 2019 White",
-                "Office 2019 Dark Gray",
-                "Office 2019 High Contrast"
+                "Windows11 Dark"
+               
             };
             return themeList;
         }
     }
 
+     //"Material Light",
+     //           "Material Dark",
+     //           "Material Light Blue",
+     //           "Material Dark Blue",
+     //           "Office 2019 Colorful",
+     //           "Office 2019 Black",
+     //           "Office 2019 White",
+     //           "Office 2019 Dark Gray",
+     //           "Office 2019 High Contrast"
     public class Palette
     {
         private string name;

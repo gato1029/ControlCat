@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -19,6 +20,7 @@ namespace OrganizadorCat.Views
         public ShellWindow(ShellViewModel viewModel)
         {
             InitializeComponent();
+            this.Closed += ShellWindow_Closed;
         if(navigationDrawer.SelectedItem != null)
 		{
 			navigationDrawer.SelectedItem = viewModel.MenuItems[0];
@@ -48,6 +50,11 @@ namespace OrganizadorCat.Views
             }
         }
 
+        private void ShellWindow_Closed(object? sender, System.EventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
         public Frame GetNavigationFrame()
             => shellFrame;
 
@@ -55,7 +62,10 @@ namespace OrganizadorCat.Views
             => Show();
 
         public void CloseWindow()
-            => Close();
+        {
+            Close();
+        }
+            
     }
     public class MyObservableCollection : ObservableCollection<object> { }
 }

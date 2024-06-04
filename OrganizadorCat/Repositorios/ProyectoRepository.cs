@@ -5,8 +5,10 @@ using OrganizadorCat.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Interop;
 
 namespace OrganizadorCat.Repositorios
 {
@@ -90,6 +92,39 @@ namespace OrganizadorCat.Repositorios
             }
             return false;
 
+        }
+
+        public bool UpdateProyectoCampo<TField>(ObjectId id, Expression<Func<Proyecto, TField>> campo, TField valor)
+        {
+            try
+            {
+                var filter = Builders<Proyecto>.Filter.Eq(p => p.Id, id);
+                var update = Builders<Proyecto>.Update.Set(campo, valor);
+                var result = _proyectoCollection.UpdateOne(filter, update);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBoxCat msg = new MessageBoxCat();
+                msg.Mensaje($"Error al actualizar proyecto: {ex.Message}");
+            }
+            return false;
+        }
+
+        public TField ObtenerCampo<TField>(ObjectId id, Expression<Func<Proyecto, TField>> campo)
+        {
+            try
+            {
+                var filter = Builders<Proyecto>.Filter.Eq(p => p.Id, id);
+                var projection = Builders<Proyecto>.Projection.Expression(campo);
+                return _proyectoCollection.Find(filter).Project(projection).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                MessageBoxCat msg = new MessageBoxCat();
+                msg.Mensaje($"Error al actualizar proyecto: {ex.Message}");
+                return default;
+            }
         }
 
         public void DeleteProyecto(string id)

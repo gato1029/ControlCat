@@ -86,7 +86,7 @@ namespace OrganizadorCat.ViewModels.Equipo
                   
                     if (_equipoRepository.InsertEquipo(Equipo))
                     {
-                     
+                        EquipoActual.SetearEquipo(Equipo);
                         _coleccion.Add(Equipo);
                         _window.Close();
                     }
@@ -101,6 +101,7 @@ namespace OrganizadorCat.ViewModels.Equipo
                         
                         _coleccion.Remove(Equipo);
                         _coleccion.Add(Equipo);
+                        EquipoActual.SetearEquipo(Equipo);
                         _window.Close();
                     }
                 }
