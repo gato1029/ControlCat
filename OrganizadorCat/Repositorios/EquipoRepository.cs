@@ -7,6 +7,7 @@ using OrganizadorCat.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -105,7 +106,33 @@ namespace OrganizadorCat.Repositorios
             return false;
 
         }
+        public bool UpdateEquipoCampo(ObjectId id,Usuario usuario )
+        {
+            try
+            {
+                usuario.Password = null;
+                usuario.Privilegios = null;
 
+                var filtro = Builders<Equipo>.Filter.And(
+                  Builders<Equipo>.Filter.Eq(e => e.Id, id),
+                  Builders<Equipo>.Filter.ElemMatch(e => e.Integrantes, i => i.Id == usuario.Id)
+              );
+
+                // Crear la actualización para cambiar el integrante
+                var actualizacion = Builders<Equipo>.Update.Set("Integrantes.$", usuario);
+
+                // Ejecutar la actualización
+                var result = _equipoCollection.UpdateOne(filtro, actualizacion);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBoxCat msg = new MessageBoxCat();
+                msg.Mensaje($"Error al actualizar proyecto: {ex.Message}");
+            }
+            return false;
+        }
         public void DeleteEquipo(string id)
         {
             var objectId = new ObjectId(id);

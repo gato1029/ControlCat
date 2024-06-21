@@ -1,5 +1,5 @@
-﻿using OrganizadorCat.ViewModels.Equipo;
-using OrganizadorCat.ViewModels.Usuario;
+﻿using OrganizadorCat.ViewModels;
+using OrganizadorCat.ViewModels.Equipo;
 using Syncfusion.SfSkinManager;
 using System;
 using System.Collections.Generic;

@@ -31,7 +31,24 @@ namespace OrganizadorCat.Views.Equipo
             DataContext = viewModel;
             _viewModel = viewModel;
             SfSkinManager.SetTheme(this, new Theme(themeName));
+            this.SizeChanged += MainWindow_SizeChanged;
         }
         public EquipoViewModel ViewModel { get => _viewModel; set => _viewModel = value; }
+
+        private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            double screenHeight = SystemParameters.PrimaryScreenHeight;
+            double screenWidth = SystemParameters.PrimaryScreenWidth;
+
+            if (this.ActualHeight > screenHeight)
+            {
+                this.Height = screenHeight;
+            }
+
+            if (this.ActualWidth > screenWidth)
+            {
+                this.Width = screenWidth;
+            }
+        }
     }
 }

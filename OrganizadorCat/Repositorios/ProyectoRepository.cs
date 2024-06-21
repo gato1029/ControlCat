@@ -26,6 +26,10 @@ namespace OrganizadorCat.Repositorios
             MessageBoxCat msg = new MessageBoxCat();
             try
             {
+                proyecto.Equipo.Integrantes = null;
+                proyecto.Equipo.PersonasCliente = null;
+                proyecto.Equipo.IntegrantesPorcentajes = null;
+
                 _proyectoCollection.InsertOne(proyecto);
                 msg.Mensaje("Proyecto insertado correctamente.");
                 return true;
@@ -52,16 +56,38 @@ namespace OrganizadorCat.Repositorios
         {
             return _proyectoCollection.Find(new BsonDocument()).ToList();
         }
-        public List<Proyecto> GetProyectosByEquipo(Equipo equipo)
+        public List<Proyecto> GetProyectosByEquipo(Equipo equipo, DateTime fechaRecepcion)
         {
             var builder = Builders<Proyecto>.Filter;
-            var filter = builder.Eq(f => f.Equipo.Id,equipo.Id);
+            var filter = builder.Eq(f => f.Equipo.Id,equipo.Id)  & builder.Gte(f => f.FechaRecepcion, fechaRecepcion);
+            return _proyectoCollection.Find(filter).ToList();
+        }
+        public List<Proyecto> GetProyectosByEquipoCerrado(Equipo equipo, DateTime fechaRecepcion,bool cerrado)
+        {
+            var builder = Builders<Proyecto>.Filter;
+            var filter = builder.Eq(f => f.Equipo.Id, equipo.Id) & builder.Gte(f => f.FechaRecepcion, fechaRecepcion) & builder.Eq(f => f.Cerrado, cerrado);
+            return _proyectoCollection.Find(filter).ToList();
+        }
+        public List<Proyecto> GetProyectosByEquipoAbiertos(Equipo equipo, bool cerrado)
+        {
+            var builder = Builders<Proyecto>.Filter;
+            var filter = builder.Eq(f => f.Equipo.Id, equipo.Id)  & builder.Eq(f => f.Cerrado, cerrado);
+            return _proyectoCollection.Find(filter).ToList();
+        }
+        public List<Proyecto> GetProyectosByEquipoExcluyendoEstado(Equipo equipo, string estadoExcluido)
+        {
+            var builder = Builders<Proyecto>.Filter;
+            var filter = builder.Eq(f => f.Equipo.Id, equipo.Id) & builder.Ne(f => f.Estado, estadoExcluido);
             return _proyectoCollection.Find(filter).ToList();
         }
         public Proyecto GetProyectoById(string id)
         {
             var objectId = new ObjectId(id);
             return _proyectoCollection.Find<Proyecto>(u => u.Id == objectId).FirstOrDefault();
+        }
+        public Proyecto GetProyectoByCodigo(string codigo)
+        {          
+            return _proyectoCollection.Find<Proyecto>(u => u.Codigo == codigo).FirstOrDefault();
         }
         public List<Proyecto> GetProyectosPorPagina(int paginaNumero, int elementosPorPagina)
         {
@@ -76,6 +102,9 @@ namespace OrganizadorCat.Repositorios
             try
             {
                 proyecto.Equipo.Integrantes = null;
+                proyecto.Equipo.PersonasCliente = null;
+                proyecto.Equipo.IntegrantesPorcentajes = null;
+                
                 var objectId = new ObjectId(id);
                 _proyectoCollection.ReplaceOne(u => u.Id == objectId, proyecto);
                 msg.Mensaje("Proyecto actualizado correctamente.");

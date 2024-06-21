@@ -1,10 +1,13 @@
 ﻿using OrganizadorCat.Models;
+using OrganizadorCat.ViewModels;
 using OrganizadorCat.ViewModels.Equipo;
 using OrganizadorCat.ViewModels.Proyecto;
 using Syncfusion.SfSkinManager;
 using Syncfusion.UI.Xaml.Grid;
+using Syncfusion.UI.Xaml.Grid.Helpers;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,44 +23,6 @@ using System.Windows.Shapes;
 
 namespace OrganizadorCat.Views.Proyecto
 {
-    /// <summary>
-    /// Lógica de interacción para ProyectoMainPage.xaml
-    /// </summary>
-    /// 
-    public partial class CustomCopyPaste : GridCutCopyPaste
-    {
-        public CustomCopyPaste(SfDataGrid DataGrid)
-            : base(DataGrid)
-        {
-
-        }
-        protected override void CopyCell(object record, GridColumn column, ref System.Text.StringBuilder text)
-        {
-
-            if (this.dataGrid.View == null)
-                return;
-
-            object copyText = null;
-
-            if (column is GridTemplateColumn)
-            {
-                copyText = "vacio";
-            }
-            else
-            {
-                copyText = this.dataGrid.View.GetPropertyAccessProvider().GetValue(record, column.MappingName);
-            }
-            
-            var copyargs = this.RaiseCopyGridCellContentEvent(column, record, copyText);
-            if (!copyargs.Handled)
-            {
-                if (this.dataGrid.Columns[leftMostColumnIndex] != column || text.Length != 0)
-                    text.Append('\t');
-
-                text.Append(copyargs.ClipBoardValue);
-            }
-        }
-    }
 
     public partial class ProyectoMainPage : Page
     {
@@ -75,17 +40,60 @@ namespace OrganizadorCat.Views.Proyecto
             if (e.Column.MappingName == "Acciones")
                 e.Handled = true;
         }
+        public ProyectoMainViewModel _instance { get; set; }
         public ProyectoMainPage(ProyectoMainViewModel viewModelExt)
         {
             InitializeComponent();
-
-            DataContext = viewModelExt;
-            this.dataGrid.GridCopyPaste = new CustomCopyPaste(this.dataGrid);
-            this.dataGrid.FontSize = 30;
+            _instance = viewModelExt;
+            DataContext = _instance;
+            this.dataGrid.GridCopyPaste = new CustomCopyPaste(this.dataGrid);          
             this.dataGrid.CopyGridCellContent += dataGrid_CopyGridCellContent;
             Theme t = new Theme(themeName);
-           
+            //this.dataGrid.CurrentCellValueChanged += AssociatedObject_CurrentCellValueChanged;
+            //this.dataGrid.CurrentCellEndEdit += AssociatedObject_CurrentCellEndEdit;
+            //this.dataGrid.ItemsSourceChanged += datagrid_ItemsSourceChanged;
             SfSkinManager.SetTheme(this, t);
+            
         }
+
+        void datagrid_ItemsSourceChanged(object sender, GridItemsSourceChangedEventArgs e)
+        {
+            if (this.dataGrid.View != null)
+                this.dataGrid.View.RecordPropertyChanged += View_RecordPropertyChanged;
+        }
+
+        void View_RecordPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            //if (e.PropertyName == "IsChecked")
+            {
+                var datarow = this.dataGrid.GetRowGenerator().Items.FirstOrDefault(row => row.RowIndex != -1 && row.RowData == sender);
+                if (datarow != null)
+                {
+                    var rowcontrol = (datarow as IRowElement).Element;
+                    BindingOperations.GetBindingExpression(rowcontrol, VirtualizingCellsControl.BackgroundProperty).UpdateTarget();
+                }
+            }
+        }
+
+        private void AssociatedObject_CurrentCellEndEdit(object? sender, CurrentCellEndEditEventArgs e)
+        {
+            
+            
+            if (e.RowColumnIndex.IsEmpty)
+                return;
+            else
+                dataGrid.UpdateDataRow(e.RowColumnIndex.RowIndex);                
+            
+        }
+
+        private void AssociatedObject_CurrentCellValueChanged(object? sender, CurrentCellValueChangedEventArgs e)
+        {
+        
+        }
+
+        //private void DatetimeProyectosDesde_DateTimeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        //{
+
+        //}
     }
 }

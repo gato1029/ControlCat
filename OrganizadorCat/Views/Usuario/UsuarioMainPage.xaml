@@ -33,27 +33,40 @@
             </Grid.RowDefinitions>
             <SFgrid:SfDataGrid
                 x:Name="dataGrid"
+                AllowDraggingColumns="True"
                 AllowEditing="False"
-                AllowFiltering="False"
-                AllowGrouping="False"
+                AllowFiltering="True"
+                AllowFrozenGroupHeaders="True"
+                AllowGrouping="True"
+                AllowResizingColumns="true"
+                AllowResizingHiddenColumns="true"
                 AllowSorting="True"
                 AutoGenerateColumns="False"
                 ColumnSizer="Auto"
+                GridCopyOption="CopyData"
                 GridLinesVisibility="Both"
                 HeaderLinesVisibility="Both"
                 HeaderRowHeight="25"
                 ItemsSource="{Binding Usuarios, Source={StaticResource viewModel}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                LiveDataUpdateMode="AllowDataShaping"
+                NavigationMode="Cell"
                 SelectionMode="Extended"
+                SelectionUnit="Cell"
                 ShowGroupDropArea="True"
+                ShowRowHeader="True"
                 ShowSortNumbers="True">
                 <SFgrid:SfDataGrid.Columns>
                     <SFgrid:Columns>
-                        <SFgrid:GridTextColumn HeaderText="ID" MappingName="Id" />
+
                         <SFgrid:GridTextColumn HeaderText="Nombre" MappingName="Nombre" />
                         <SFgrid:GridTextColumn HeaderText="Correo electrónico" MappingName="Correo" />
 
                         <SFgrid:GridTemplateColumn
                             Width="120"
+                            AllowDragging="false"
+                            AllowFiltering="False"
+                            AllowFocus="False"
+                            AllowGrouping="False"
                             AllowSorting="False"
                             HeaderText="Acciones">
                             <SFgrid:GridTemplateColumn.CellTemplate>

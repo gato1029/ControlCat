@@ -33,29 +33,38 @@ namespace OrganizadorCat.ViewModels.Proyecto
             if (arrayAreas.Count>0)
             {
                 _proyecto.Area = arrayAreas[0];
-            }            
+            }
+            Proyecto.ClienteAsignado = arrayClientes[0];
         }
 
         private void InitCombos()
         {
             arrayAreas = new ObservableCollection<string>();
-
+            arrayClientes = new ObservableCollection<Models.Persona>();
             foreach (var item in EquipoActual.Instance.EquipoVigente.Areas.Split(";"))
             {
                 arrayAreas.Add(item);
             }    
 
             arrayEstados = new ObservableCollection<string>
-            {
-                 "Analisis", "Sin Asignar", "Desarrollo", "Concluido", "Enviado" 
+            {              
+                 "Soporte","Analisis","Analizado Esperando Respuesta" , "Pendiente Inicio", "Desarrollo", "Concluido","Revision Bug", "Enviado", "Envio y Liberacion"
             };
-        }
 
+            foreach (var item in EquipoActual.Instance.EquipoVigente.PersonasCliente)
+            {
+                arrayClientes.Add(item);
+            }
+        }
+        string codigoOriginal = "0";
         public ProyectoViewModel(Models.Proyecto proyecto)
         {
-            _proyecto = proyecto;
-            InitCommandos();
             InitCombos();
+            InitCommandos();
+            _proyecto = DeepCopy.DeepCopier.Copy(proyecto);
+            codigoOriginal = _proyecto.Codigo;
+            //Proyecto = DeepCopy.DeepCopier.Copy(proyecto);
+
             //itemsSeleccionados = Utilitarios.ListToObservable(proyecto.Integrantes);
         }
 
@@ -81,34 +90,71 @@ namespace OrganizadorCat.ViewModels.Proyecto
         }
         private bool CanGuardar(string id)
         {
+
             return true;
             //return _proyecto.Id != ObjectId.Empty || !string.IsNullOrEmpty(_proyecto.Nombre) && !string.IsNullOrEmpty(_proyecto.Correo);
         }
 
-        private void Guardar(string id)
+        bool VerificarCodigo(string codigo,bool update = false)
         {
-            if (Proyecto.Validar())
+            bool flag = true;
+            
+            if (update)
             {
-                if (string.IsNullOrEmpty(id))
+                if (codigo == codigoOriginal)
                 {
-                    // Crear nuevo proyecto
-                    Proyecto.Id = ObjectId.GenerateNewId();
-                    //Proyecto.Integrantes = Utilitarios.ObservableToList<Models.Usuario>(itemsSeleccionados);
-                    if (_proyectoRepository.InsertProyecto(Proyecto))
-                    {
-                        _coleccion.Add(Proyecto);
-                        _window.Close();
-                    }
+                    flag = true;
+                    return flag;
+                }
+            }
+            
+            var data = _proyectoRepository.GetProyectoByCodigo(codigo);
+            if (data != null)
+            {
+                if (data.Codigo == "0")
+                {
+                    flag = true;
                 }
                 else
                 {
-                    // Actualizar proyecto existente
-                    //Proyecto.Integrantes = Utilitarios.ObservableToList<Models.Usuario>(itemsSeleccionados);
-                    if (_proyectoRepository.UpdateProyecto(id, Proyecto))
+                    MessageBoxCat msg = new MessageBoxCat();
+                    msg.Mensaje("El codigo de proyecto que intentas registrar ya existe, si aun no sabes el codigo de proyecto coloca 0");
+                    flag = false;
+                }
+            }
+            
+            return flag;
+        }
+        private void Guardar(string id)
+        {            
+          
+            if (Proyecto.Validar())
+            {              
+                if (string.IsNullOrEmpty(id))
+                {
+                    if (VerificarCodigo(Proyecto.Codigo))
                     {
-                        _coleccion.Remove(Proyecto);
-                        _coleccion.Add(Proyecto);
-                        _window.Close();
+                        // Crear nuevo proyecto
+                        Proyecto.Id = ObjectId.GenerateNewId();
+                    
+                        if (_proyectoRepository.InsertProyecto(Proyecto))
+                        {
+                            _coleccion.Add(Proyecto);
+                            _window.Close();
+                        }
+                    }                    
+                }
+                else
+                {
+                    if (VerificarCodigo(Proyecto.Codigo,true))
+                    {
+                        // Actualizar proyecto existente
+                        if (_proyectoRepository.UpdateProyecto(id, Proyecto))
+                        {
+                            _coleccion.Remove(Proyecto);
+                            _coleccion.Add(Proyecto);
+                            _window.Close();
+                        }
                     }
                 }
             }
@@ -117,6 +163,7 @@ namespace OrganizadorCat.ViewModels.Proyecto
                 MessageBoxCat msg = new MessageBoxCat();
                 msg.Mensaje("Existen campos no validados.");
             }
+                    
         }
 
         private void InitCommandos()
@@ -132,6 +179,8 @@ namespace OrganizadorCat.ViewModels.Proyecto
             usuarioRepository.GetAllUsuarios().ForEach(usuario => _items.Add(usuario));
 
             ItemsSeleccionados = new ObservableCollection<object>();
+
+            
         }
 
         private ObservableCollection<string> arrayEstados;
@@ -141,5 +190,23 @@ namespace OrganizadorCat.ViewModels.Proyecto
         private ObservableCollection<string> arrayAreas;
 
         public ObservableCollection<string> ArrayAreas { get => arrayAreas; set => Set(ref arrayAreas, value); }
+
+        private ObservableCollection<Models.Persona> arrayClientes;
+
+        public ObservableCollection<Models.Persona> ArrayClientes { get => arrayClientes; set => Set(ref arrayClientes, value); }
+
+        private RelayCommand checkProyectoCerrado;
+        public ICommand CheckProyectoCerrado => checkProyectoCerrado ??= new RelayCommand(PerformCheckProyectoCerrado);
+
+        private void PerformCheckProyectoCerrado()
+        {
+            if (Proyecto.Cerrado)
+            {
+                MessageBoxCat msg = new MessageBoxCat();
+                msg.Mensaje("El proyecto se marco para cerrarlo, por favor actualiza la fecha de cierre, \n una vez cerrado el proyecto desaparecera de Asignaciones Disponibles.");              
+            }            
+        }
+
+
     }
 }

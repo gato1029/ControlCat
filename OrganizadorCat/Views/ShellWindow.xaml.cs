@@ -21,10 +21,10 @@ namespace OrganizadorCat.Views
         {
             InitializeComponent();
             this.Closed += ShellWindow_Closed;
-        if(navigationDrawer.SelectedItem != null)
-		{
-			navigationDrawer.SelectedItem = viewModel.MenuItems[0];
-		}
+            if (navigationDrawer.SelectedItem != null)
+            {
+                navigationDrawer.SelectedItem = viewModel.MenuItems[0];
+            }
 
             DataContext = viewModel;
             _ShellViewModel = viewModel;
@@ -50,6 +50,10 @@ namespace OrganizadorCat.Views
             }
         }
 
+        public void Configurar(Models.Usuario usuario)            
+        {
+            _ShellViewModel.Configuracion();
+        }
         private void ShellWindow_Closed(object? sender, System.EventArgs e)
         {
             Application.Current.Shutdown();

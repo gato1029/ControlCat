@@ -37,6 +37,16 @@ namespace OrganizadorCat.Models
         [BsonIgnoreIfNull]
         [BsonIgnoreIfDefault]
         public string Password { get; set; }
+
+        [BsonIgnoreIfNull]
+        [BsonIgnoreIfDefault]
+        public string Area { get; set; }
+
+
+        [BsonIgnoreIfNull]
+        [BsonIgnoreIfDefault]
+        public double Porcentaje { get; set; }
+
         [BsonIgnoreIfNull]
         [BsonIgnoreIfDefault]
         public List<string> Privilegios { get; set; }

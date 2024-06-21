@@ -24,8 +24,10 @@ namespace OrganizadorCat.Models
         public Usuario Usuario { get; set; }
         
         public int Horas { get; set; }
+        public int PorcentajeAvance { get; set; }
         public bool DiaCompleto { get; set; }
         public bool Vacaciones { get; set; }
+        public string Estado { get; set; }
         public string Comentario { get; set; }
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }

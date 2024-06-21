@@ -13,7 +13,7 @@
     xmlns:vm="clr-namespace:OrganizadorCat.ViewModels.Equipo"
     Title="Equipo"
     Width="400"
-    Height="600"
+    Height="800"
     d:DataContext="{d:DesignInstance Type=vm:EquipoViewModel}"
     AllowsTransparency="True"
     CornerRadius="8"
@@ -22,6 +22,7 @@
     ShowIcon="False"
     ShowMaximizeButton="False"
     ShowMinimizeButton="False"
+    SizeToContent="WidthAndHeight"
     Style="{StaticResource CustomMetroWindow}"
     UseNativeChrome="True"
     WindowStartupLocation="CenterOwner"
@@ -35,106 +36,204 @@
     </Window.Resources>
 
 
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="15">
+            <Grid x:Name="RootGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0">
+                    <TextBlock Margin="5" Text="Nombre:" />
+                    <syncfusion:SfTextInputLayout
+                        ErrorForeground="IndianRed"
+                        ErrorText="Ingrese un valor"
+                        Foreground="LightSeaGreen"
+                        HasError="{Binding Equipo.Nombre, Converter={StaticResource StringValidateConverter}}"
+                        Hint="Ingrese el nombre">
+                        <TextBox Text="{Binding Equipo.Nombre, UpdateSourceTrigger=PropertyChanged}" />
+                    </syncfusion:SfTextInputLayout>
+                </StackPanel>
+                <StackPanel Grid.Row="1">
+                    <TextBlock Margin="5" Text="Areas:" />
+                    <syncfusion:SfTextInputLayout
+                        ErrorForeground="IndianRed"
+                        ErrorText="Ingrese un valor como minimo."
+                        Foreground="LightSeaGreen"
+                        HasError="{Binding Equipo.Areas, Converter={StaticResource StringValidateConverter}}"
+                        Hint="Ingrese los valores separados por ;">
+                        <TextBox Text="{Binding Equipo.Areas, UpdateSourceTrigger=PropertyChanged}" />
+                    </syncfusion:SfTextInputLayout>
+                </StackPanel>
+                <StackPanel Grid.Row="3" Height="150">
+                    <TextBlock Margin="5" Text="Integrantes:" />
+                    <syncfusion:SfTextBoxExt
+                        x:Name="autoComplete"
+                        Margin="10"
+                        VerticalAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        AutoCompleteMode="Suggest"
+                        AutoCompleteSource="{Binding Items}"
+                        EnableAutoSize="True"
+                        MultiSelectMode="Token"
+                        SearchItemPath="Nombre"
+                        SelectedItems="{Binding ItemsSeleccionados, Mode=TwoWay}"
+                        ShowClearButton="True"
+                        TokensWrapMode="Wrap">
 
-    <StackPanel Margin="15">
-        <Grid x:Name="RootGrid">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0">
-                <TextBlock Margin="5" Text="Nombre:" />
-                <syncfusion:SfTextInputLayout
-                    ErrorForeground="IndianRed"
-                    ErrorText="Ingrese un valor"
-                    Foreground="LightSeaGreen"
-                    HasError="{Binding Equipo.Nombre, Converter={StaticResource StringValidateConverter}}"
-                    Hint="Ingrese el nombre">
-                    <TextBox Text="{Binding Equipo.Nombre, UpdateSourceTrigger=PropertyChanged}" />
-                </syncfusion:SfTextInputLayout>
-            </StackPanel>
-            <StackPanel Grid.Row="1">
-                <TextBlock Margin="5" Text="Areas:" />
-                <syncfusion:SfTextInputLayout
-                    ErrorForeground="IndianRed"
-                    ErrorText="Ingrese un valor como minimo."
-                    Foreground="LightSeaGreen"
-                    HasError="{Binding Equipo.Areas, Converter={StaticResource StringValidateConverter}}"
-                    Hint="Ingrese los valores separados por ;">
-                    <TextBox Text="{Binding Equipo.Areas, UpdateSourceTrigger=PropertyChanged}" />
-                </syncfusion:SfTextInputLayout>
-            </StackPanel>
-            <StackPanel Grid.Row="3" Height="150">
-                <TextBlock Margin="5" Text="Integrantes:" />
-                <syncfusion:SfTextBoxExt
-                    x:Name="autoComplete"
-                    Margin="10"
-                    VerticalAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    AutoCompleteMode="Suggest"
-                    AutoCompleteSource="{Binding Items}"
-                    EnableAutoSize="True"
-                    MultiSelectMode="Token"
-                    SearchItemPath="Nombre"
-                    SelectedItems="{Binding ItemsSeleccionados, Mode=TwoWay}"
-                    ShowClearButton="True"
-                    TokensWrapMode="Wrap">
+                        <syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Height="40" Orientation="Horizontal">
 
-                    <syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Height="40" Orientation="Horizontal">
-
-                                <StackPanel Margin="2" Orientation="Vertical">
-                                    <TextBlock
-                                        Margin="4,2,4,0"
-                                        FontSize="12"
-                                        Text="{Binding Nombre}" />
-                                    <TextBlock
-                                        Margin="4,1,2,2"
-                                        FontSize="10"
-                                        Text="{Binding Correo}" />
+                                    <StackPanel Margin="2" Orientation="Vertical">
+                                        <TextBlock
+                                            Margin="4,2,4,0"
+                                            FontSize="12"
+                                            Text="{Binding Nombre}" />
+                                        <TextBlock
+                                            Margin="4,1,2,2"
+                                            FontSize="10"
+                                            Text="{Binding Correo}" />
+                                    </StackPanel>
                                 </StackPanel>
-                            </StackPanel>
-                        </DataTemplate>
-                    </syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
-                    <syncfusion:SfTextBoxExt.NoResultsFoundTemplate>
-                        <DataTemplate>
-                            <Label
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Content="No se encontraron resultados" />
-                        </DataTemplate>
-                    </syncfusion:SfTextBoxExt.NoResultsFoundTemplate>
-                </syncfusion:SfTextBoxExt>
-            </StackPanel>
-            <StackPanel
-                Grid.Row="4"
-                Margin="10"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Bottom"
-                Orientation="Horizontal">
-                <syncfusion:ButtonAdv
+                            </DataTemplate>
+                        </syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+                        <syncfusion:SfTextBoxExt.NoResultsFoundTemplate>
+                            <DataTemplate>
+                                <Label
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Content="No se encontraron resultados" />
+                            </DataTemplate>
+                        </syncfusion:SfTextBoxExt.NoResultsFoundTemplate>
+                    </syncfusion:SfTextBoxExt>
+                </StackPanel>
+
+                <StackPanel Grid.Row="4" Height="150">
+                    <TextBlock Margin="5" Text="Clientes:" />
+                    <syncfusion:SfTextBoxExt
+                        x:Name="autoCompleteCliente"
+                        Margin="10"
+                        VerticalAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        AutoCompleteMode="Suggest"
+                        AutoCompleteSource="{Binding ItemsClientes}"
+                        EnableAutoSize="True"
+                        MultiSelectMode="Token"
+                        SearchItemPath="Nombre"
+                        SelectedItems="{Binding ItemsSeleccionadosClientes, Mode=TwoWay}"
+                        ShowClearButton="True"
+                        TokensWrapMode="Wrap">
+
+                        <syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Height="40" Orientation="Horizontal">
+
+                                    <StackPanel Margin="2" Orientation="Vertical">
+                                        <TextBlock
+                                            Margin="4,2,4,0"
+                                            FontSize="12"
+                                            Text="{Binding Nombre}" />
+                                        <TextBlock
+                                            Margin="4,1,2,2"
+                                            FontSize="10"
+                                            Text="{Binding Cliente}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+                        <syncfusion:SfTextBoxExt.NoResultsFoundTemplate>
+                            <DataTemplate>
+                                <Label
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Content="No se encontraron resultados" />
+                            </DataTemplate>
+                        </syncfusion:SfTextBoxExt.NoResultsFoundTemplate>
+                    </syncfusion:SfTextBoxExt>
+                </StackPanel>
+                <StackPanel Grid.Row="5" Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel>
+                            <TextBlock Margin="5" Text="Usuario Parametrizar:" />
+                            <syncfusion:SfTextInputLayout
+                                Width="150"
+                                HorizontalAlignment="Left"
+                                ErrorForeground="IndianRed"
+                                ErrorText="Seleccione el Usuario:"
+                                Foreground="LightSeaGreen"
+                                Hint="Seleccione el Usuario.">
+                                <syncfusion:ComboBoxAdv ItemsSource="{Binding ItemsSeleccionados, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding UsuarioSeleccion, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                            </syncfusion:SfTextInputLayout>
+                        </StackPanel>
+                        <StackPanel
+                            Margin="10,20,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                            <syncfusion:ButtonAdv
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Command="{Binding AgregarUserCommand}"
+                                CommandParameter="{Binding UsuarioSeleccion, Converter={StaticResource IdToStringConverter}}"
+                                IconHeight="20"
+                                IconWidth="20"
+                                Label="Agregar"
+                                SizeMode="Large">
+                                <syncfusion:ButtonAdv.IconTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <materialIcons:MaterialIcon Kind="Add" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </syncfusion:ButtonAdv.IconTemplate>
+                            </syncfusion:ButtonAdv>
+                        </StackPanel>
+                    </StackPanel>
+                    <syncfusion:SfDataGrid
+                        x:Name="dataGrid"
+                        AllowDeleting="True"
+                        AllowEditing="True"
+                        AutoGenerateColumns="False"
+                        ItemsSource="{Binding UsuariosGrid}"
+                        SelectionMode="Single">
+                        <syncfusion:SfDataGrid.Columns>
+                            <syncfusion:GridTextColumn AllowEditing="False" MappingName="Nombre" />
+                            <syncfusion:GridTextColumn MappingName="Area" />
+                            <syncfusion:GridTextColumn MappingName="Porcentaje" />
+                        </syncfusion:SfDataGrid.Columns>
+                    </syncfusion:SfDataGrid>
+                </StackPanel>
+                <StackPanel
+                    Grid.Row="6"
                     Margin="10"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    Command="{Binding GuardarCommand}"
-                    CommandParameter="{Binding Equipo.Id, Converter={StaticResource IdToStringConverter}}"
-                    IconHeight="50"
-                    IconWidth="50"
-                    Label="Guardar"
-                    SizeMode="Large">
-                    <syncfusion:ButtonAdv.IconTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <materialIcons:MaterialIcon Kind="CloudArrowUp" />
-                            </Grid>
-                        </DataTemplate>
-                    </syncfusion:ButtonAdv.IconTemplate>
-                </syncfusion:ButtonAdv>
-            </StackPanel>
-        </Grid>
-    </StackPanel>
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Orientation="Horizontal">
+                    <syncfusion:ButtonAdv
+                        Margin="10"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Command="{Binding GuardarCommand}"
+                        CommandParameter="{Binding Equipo.Id, Converter={StaticResource IdToStringConverter}}"
+                        IconHeight="50"
+                        IconWidth="50"
+                        Label="Guardar"
+                        SizeMode="Large">
+                        <syncfusion:ButtonAdv.IconTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <materialIcons:MaterialIcon Kind="CloudArrowUp" />
+                                </Grid>
+                            </DataTemplate>
+                        </syncfusion:ButtonAdv.IconTemplate>
+                    </syncfusion:ButtonAdv>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
 </syncfusion:ChromelessWindow>

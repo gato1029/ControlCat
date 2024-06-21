@@ -35,6 +35,16 @@ namespace OrganizadorCat.Models
         [BsonIgnoreIfNull]
         [BsonIgnoreIfDefault]
         public int HorasEstimadas { get; set; }
+
+        [BsonIgnoreIfNull]
+        [BsonIgnoreIfDefault]
+        public int HorasAnalisis { get; set; }
+
+        [BsonIgnoreIfNull]
+        [BsonIgnoreIfDefault]
+        public int HorasTotales { get; set; }
+
+
         [BsonIgnoreIfNull]
         [BsonIgnoreIfDefault]
         public int HorasReales { get; set; }
@@ -61,6 +71,9 @@ namespace OrganizadorCat.Models
         [BsonIgnoreIfDefault]
         public Persona ClienteAsignado { get; set; }
 
+        [BsonIgnoreIfNull]
+        public bool Cerrado { get; set; }
+
         public Proyecto()
         { }
         public Proyecto(ObjectId objectId)
@@ -80,12 +93,21 @@ namespace OrganizadorCat.Models
             if (!Utilitarios.IsValidField(Nombre, ""))
             {
                 return false;
-            }            
+            }
+            if (!Utilitarios.IsValidField(Codigo, ""))
+            {
+                return false;
+            }
+            if (!Utilitarios.IsValidField(Area, ""))
+            {
+                return false;
+            }
+            
             return true;
         }
         public override string ToString()
         {
-            return Codigo+"-"+Nombre;
+            return Codigo+" : "+Nombre +"\n"+Area;
         }
     }
 }

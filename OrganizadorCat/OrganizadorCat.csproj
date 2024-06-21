@@ -8,6 +8,9 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Assets\warning.png" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="DeepCopy" Version="1.0.3" />
     <PackageReference Include="Material.Icons.WPF" Version="2.1.9" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.8" />
@@ -40,6 +43,7 @@
       <PackageReference Include="Syncfusion.SfTextInputLayout.WPF" Version="25.1.42" />
     <PackageReference Include="Syncfusion.SfScheduler.WPF" Version="25.1.42" />
     <PackageReference Include="Syncfusion.SfColorPalette.WPF" Version="25.1.42" />
+    <PackageReference Include="Syncfusion.SfProgressBar.WPF" Version="25.1.42"/>
 </ItemGroup>
 
   <ItemGroup>
@@ -76,6 +80,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Sufficient.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\warning.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

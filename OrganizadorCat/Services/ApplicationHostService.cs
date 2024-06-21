@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 
 using OrganizadorCat.Contracts.Services;
 using OrganizadorCat.Contracts.Views;
+using OrganizadorCat.Helpers;
 using OrganizadorCat.Models;
 using OrganizadorCat.ViewModels;
 using OrganizadorCat.ViewModels.Dashboard;
@@ -72,12 +73,15 @@ namespace OrganizadorCat.Services
                 // Default activation that navigates to the apps default page
                 _shellWindow = _serviceProvider.GetService(typeof(IShellWindow)) as IShellWindow;
                 _navigationService.Initialize(_shellWindow.GetNavigationFrame());                
-                _navigationService.NavigateTo(typeof(InicioViewModel).FullName);
+                
 
                 Login login = new Login();
                 login.ShowDialog();
                 if (login.DialogResult == true)
                 {
+                    _navigationService.NavigateTo(typeof(InicioViewModel).FullName);
+                    ShellWindow shell = (ShellWindow)_shellWindow;
+                    shell.Configurar(UsuarioLogeado.UsuarioActual);
                     _shellWindow.ShowWindow();
                 }
                 else

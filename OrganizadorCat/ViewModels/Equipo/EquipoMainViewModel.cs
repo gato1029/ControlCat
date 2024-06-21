@@ -3,12 +3,7 @@ using OrganizadorCat.Helpers;
 using OrganizadorCat.Repositorios;
 using OrganizadorCat.ViewModels.Equipo;
 using OrganizadorCat.Views.Equipo;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace OrganizadorCat.ViewModels.Equipo
@@ -36,7 +31,10 @@ namespace OrganizadorCat.ViewModels.Equipo
 
         public EquipoMainViewModel()
         {
+          
 
+
+          
             var dbContext = MongoDBContext.Instance;
 
             Equipos = new ObservableCollection<Models.Equipo>();
@@ -46,6 +44,8 @@ namespace OrganizadorCat.ViewModels.Equipo
 
             ModificarCommand = new RelayCommand<Models.Equipo>(Modificar, CanModificar);
             EliminarCommand = new RelayCommand<Models.Equipo>(Eliminar, CanEliminar);
+
+        
         }
 
         private void CargarEquipos()

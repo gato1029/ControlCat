@@ -1,5 +1,6 @@
 ﻿using OrganizadorCat.ViewModels.Dashboard;
 using OrganizadorCat.ViewModels.Equipo;
+using OrganizadorCat.ViewModels.Proyecto;
 using Syncfusion.SfSkinManager;
 using System;
 using System.Collections.Generic;
@@ -24,13 +25,14 @@ namespace OrganizadorCat.Views.Dashboard
     public partial class Inicio : Page
     {
         public string themeName = App.Current.Properties["Theme"]?.ToString() != null ? App.Current.Properties["Theme"]?.ToString() : "Windows11Light";
-
+        public InicioViewModel viewModel { get; set; }
         public Inicio(InicioViewModel viewModelExt)
         {
             InitializeComponent();
+            viewModel = viewModelExt;
 
             DataContext = viewModelExt;
-
+            
             SfSkinManager.SetTheme(this, new Theme(themeName));
         }
     }

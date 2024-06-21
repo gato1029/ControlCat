@@ -27,8 +27,9 @@ namespace BTCat.Generico
                 if (_instance == null)
                 {
                     // Configura aquí la cadena de conexión y el nombre de la base de datos
-                    string connectionString = "mongodb://localhost:27017";
-                    string databaseName = "BTCat";
+                    string connectionString = "mongodb+srv://appCat:wPQ4BC14JXEzrMpL@cluster0.j634ka9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+                    //string connectionString = "mongodb://localhost:27017";
+                    string databaseName = "Principal";
                     _instance = new MongoDBContext(connectionString, databaseName);
                 }
                 return _instance;
@@ -52,5 +53,18 @@ namespace BTCat.Generico
             get { return _database.GetCollection<Asignacion>("Asignacion"); }
         }
 
+        public IMongoCollection<Persona> Personas
+        {
+            get { return _database.GetCollection<Persona>("Personas"); }
+        }
+        public IMongoCollection<Feriados> Feriados
+        {
+            get { return _database.GetCollection<Feriados>("Feriado"); }
+        }
+
+        public IMongoCollection<General> General
+        {
+            get { return _database.GetCollection<General>("General"); }
+        }
     }
 }

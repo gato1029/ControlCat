@@ -6,6 +6,7 @@ using OrganizadorCat.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,8 +23,8 @@ namespace OrganizadorCat.Repositorios
             _usuariosCollection = dbContext.Usuarios;
 
             // Crear índice único en el campo Correo
-            var correoIndexModel = new CreateIndexModel<Usuario>(Builders<Usuario>.IndexKeys.Ascending(u => u.Correo), new CreateIndexOptions { Unique = true });
-            _usuariosCollection.Indexes.CreateOne(correoIndexModel);
+            //var correoIndexModel = new CreateIndexModel<Usuario>(Builders<Usuario>.IndexKeys.Ascending(u => u.Correo), new CreateIndexOptions { Unique = true });
+            //_usuariosCollection.Indexes.CreateOne(correoIndexModel);
         }
 
         public bool InsertUsuario(Usuario usuario)
@@ -80,28 +81,39 @@ namespace OrganizadorCat.Repositorios
                                       .Limit(elementosPorPagina)
                                       .ToList();
         }
-        public bool UpdateUsuario(string id, Usuario usuario)
+
+      
+        public bool UpdateUsuario(string id, Usuario usuario, bool message= true)
         {
-            MessageBoxCat msg = new MessageBoxCat();
-            try
+            if (message)
+            {
+                MessageBoxCat msg = new MessageBoxCat();
+                try
+                {
+                    usuario.Equipos = null;
+                    var objectId = new ObjectId(id);
+                    _usuariosCollection.ReplaceOne(u => u.Id == objectId, usuario);
+                    msg.Mensaje("Usuario actualizado correctamente.");
+                    return true;
+                }
+                catch (MongoWriteException ex)
+                {
+
+                    msg.Mensaje($"Error al actualizar usuario: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    msg.Mensaje($"Error al actualizar usuario: {ex.Message}");
+                }
+                return false;
+            }
+            else
             {
                 usuario.Equipos = null;
                 var objectId = new ObjectId(id);
                 _usuariosCollection.ReplaceOne(u => u.Id == objectId, usuario);
-                msg.Mensaje("Usuario actualizado correctamente.");
                 return true;
-            }
-            catch (MongoWriteException ex)
-            {
-
-                msg.Mensaje($"Error al actualizar usuario: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                msg.Mensaje($"Error al actualizar usuario: {ex.Message}");
-            }
-            return false;
-
+            }            
         }
 
         public void DeleteUsuario(string id)

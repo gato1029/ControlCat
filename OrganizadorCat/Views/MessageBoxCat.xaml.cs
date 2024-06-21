@@ -36,6 +36,7 @@ namespace OrganizadorCat
             SfSkinManager.SetTheme(this, new Theme(themeName));
             MessageTextBlock.Text = "No se definio Mensaje";
             Owner = App.Current.MainWindow;
+                   
         }
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {

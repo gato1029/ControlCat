@@ -24,6 +24,8 @@ using OrganizadorCat.Views.Usuario;
 using OrganizadorCat.ViewModels.Dashboard;
 using OrganizadorCat.Views.Dashboard;
 using OrganizadorCat.Views.Login;
+using OrganizadorCat.ViewModels.Persona;
+using OrganizadorCat.Views.Persona;
 
 namespace OrganizadorCat
 {
@@ -133,8 +135,9 @@ namespace OrganizadorCat
             services.AddTransient<AsignacionMainViewModel>();
             services.AddTransient<AsignacionMainPage>();
 
+            services.AddTransient<PersonaMainViewModel>();
+            services.AddTransient<PersonaMainPage>();
 
-         
 
             services.AddTransient<IShellDialogWindow, ShellDialogWindow>();
             services.AddTransient<ShellDialogViewModel>();

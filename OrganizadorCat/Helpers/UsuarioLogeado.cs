@@ -13,7 +13,7 @@ namespace OrganizadorCat.Helpers
         private static readonly object _lock = new object();
 
         private Usuario _usuarioLogeado;
-
+        private DateTime _fechaConsultaActual;
         private UsuarioLogeado() { } // Private constructor
 
         public static UsuarioLogeado Instance
@@ -33,18 +33,19 @@ namespace OrganizadorCat.Helpers
 
                 return _instance;
             }
-        }
-
+        }       
         public static Usuario UsuarioActual
         {
             get { return _instance._usuarioLogeado; }
             set { _instance._usuarioLogeado = value; }
         }
 
+        public DateTime FechaConsultaActual { get => _fechaConsultaActual; set => _fechaConsultaActual = value; }
+
         public static Usuario Login(Usuario usuario)
         {
             if (_instance==null)
-            {
+            {                
                 _instance = new UsuarioLogeado();
             }
             _instance._usuarioLogeado = usuario;

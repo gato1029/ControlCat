@@ -28,6 +28,15 @@ namespace OrganizadorCat.Models
 
         [BsonIgnoreIfNull]
         [BsonIgnoreIfDefault]
+        public List<Usuario> IntegrantesPorcentajes { get; set; }
+
+        [BsonIgnoreIfNull]
+        [BsonIgnoreIfDefault]
+        public List<Persona> PersonasCliente { get; set; }
+
+
+        [BsonIgnoreIfNull]
+        [BsonIgnoreIfDefault]
         public string Areas { get; set; }
 
         public Equipo(ObjectId id)

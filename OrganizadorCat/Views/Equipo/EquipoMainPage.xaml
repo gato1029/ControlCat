@@ -5,16 +5,18 @@
     xmlns:SFgrid="http://schemas.syncfusion.com/wpf"
     xmlns:converter="clr-namespace:OrganizadorCat.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:OrganizadorCat.Views.Equipo"
     xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:syncfusion="clr-namespace:Syncfusion.Windows.Tools.Controls;assembly=Syncfusion.Shared.WPF"
-    xmlns:syncfusion1="clr-namespace:Syncfusion.UI.Xaml.Controls.DataPager;assembly=Syncfusion.SfGrid.WPF"
     xmlns:vm="clr-namespace:OrganizadorCat.ViewModels.Equipo"
     Title="EquipoMainPage"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
+
+
     <Page.Resources>
         <vm:EquipoMainViewModel x:Key="viewModel" />
         <converter:IdToStringConverter x:Key="IdToStringConverter" />
@@ -34,27 +36,40 @@
             </Grid.RowDefinitions>
             <SFgrid:SfDataGrid
                 x:Name="dataGrid"
+                AllowDraggingColumns="True"
                 AllowEditing="False"
-                AllowFiltering="False"
-                AllowGrouping="False"
+                AllowFiltering="True"
+                AllowFrozenGroupHeaders="True"
+                AllowGrouping="True"
+                AllowResizingColumns="true"
+                AllowResizingHiddenColumns="true"
                 AllowSorting="True"
                 AutoGenerateColumns="False"
                 ColumnSizer="Auto"
+                GridCopyOption="CopyData"
                 GridLinesVisibility="Both"
                 HeaderLinesVisibility="Both"
                 HeaderRowHeight="25"
                 ItemsSource="{Binding Equipos, Source={StaticResource viewModel}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                LiveDataUpdateMode="AllowDataShaping"
+                NavigationMode="Cell"
                 SelectionMode="Extended"
+                SelectionUnit="Cell"
                 ShowGroupDropArea="True"
+                ShowRowHeader="True"
                 ShowSortNumbers="True">
                 <SFgrid:SfDataGrid.Columns>
                     <SFgrid:Columns>
-                        <SFgrid:GridTextColumn HeaderText="ID" MappingName="Id" />
+
                         <SFgrid:GridTextColumn HeaderText="Nombre" MappingName="Nombre" />
 
 
                         <SFgrid:GridTemplateColumn
                             Width="120"
+                            AllowDragging="false"
+                            AllowFiltering="False"
+                            AllowFocus="False"
+                            AllowGrouping="False"
                             AllowSorting="False"
                             HeaderText="Acciones">
                             <SFgrid:GridTemplateColumn.CellTemplate>
@@ -102,7 +117,7 @@
                     </SFgrid:Columns>
                 </SFgrid:SfDataGrid.Columns>
             </SFgrid:SfDataGrid>
-            <syncfusion1:SfDataPager
+            <SFgrid:SfDataPager
                 x:Name="sfDataPager"
                 Grid.Row="1"
                 Margin="30"

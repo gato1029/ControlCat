@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using OrganizadorCat.Models;
+using System.Windows.Controls;
 
 namespace OrganizadorCat.Contracts.Views
 {
@@ -9,5 +10,7 @@ namespace OrganizadorCat.Contracts.Views
         void ShowWindow();
 
         void CloseWindow();
+
+        
     }
 }

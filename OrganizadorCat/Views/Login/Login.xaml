@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
     Width="300"
-    Height="200"
+    Height="450"
     AllowsTransparency="True"
     CornerRadius="8"
     HideTaskBar="True"
@@ -19,23 +19,109 @@
     SizeToContent="Height"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
-    <Grid>
+    <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
 
-        <StackPanel Grid.Row="0">
+        <StackPanel Grid.Row="0" Orientation="Vertical">
             <syncfusion:SfTextInputLayout
+                x:Name="CorreoInput"
                 ErrorForeground="IndianRed"
                 ErrorText="Ingrese un correo Valido"
                 Foreground="LightSeaGreen"
                 Hint="Ingrese su correo electrónico">
                 <TextBox x:Name="Correo" />
             </syncfusion:SfTextInputLayout>
+            <syncfusion:SfTextInputLayout
+                x:Name="PasswordInput"
+                ErrorForeground="IndianRed"
+                ErrorText="Ingrese un correo Valido"
+                Foreground="LightSeaGreen"
+                Hint="Ingrese su contraseña">
+                <PasswordBox x:Name="PasswordBox" />
+            </syncfusion:SfTextInputLayout>
+            <TextBlock x:Name="Version" HorizontalAlignment="Right" />
+            <CheckBox
+                x:Name="RememberMeCheckBox"
+                Margin="5"
+                Content="Recuerdame" />
+            <TextBlock x:Name="CambiarHyper" HorizontalAlignment="Right">
+                <Hyperlink
+                    Click="Hyperlink_Click"
+                    NavigateUri=""
+                    RequestNavigate="Hyperlink_RequestNavigate">
+                    Cambiar Contraseña
+                </Hyperlink>
+            </TextBlock>
+
+            <StackPanel x:Name="PanelPassword" Visibility="Collapsed">
+                <syncfusion:SfTextInputLayout
+                    x:Name="PasswordNuevoInput"
+                    ErrorForeground="IndianRed"
+                    ErrorText="Ingrese un correo Valido"
+                    Foreground="LightSeaGreen"
+                    Hint="Ingrese su nueva contraseña">
+                    <PasswordBox x:Name="PasswordNuevo" />
+                </syncfusion:SfTextInputLayout>
+                <syncfusion:SfTextInputLayout
+                    x:Name="PasswordNuevoReInput"
+                    ErrorForeground="IndianRed"
+                    ErrorText="Ingrese un correo Valido"
+                    Foreground="LightSeaGreen"
+                    Hint="Ingrese el mismo patron de su nueva contraseña">
+                    <PasswordBox x:Name="PasswordNuevoRe" />
+                </syncfusion:SfTextInputLayout>
+                <StackPanel
+                    Grid.Row="1"
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Orientation="Horizontal">
+                    <syncfusion:ButtonAdv
+                        x:Name="CambiarButton"
+                        Margin="10"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Click="CambiarButton_Click"
+                        IconHeight="20"
+                        IconWidth="20"
+                        Label="Cambiar Contraseña"
+                        SizeMode="Normal">
+                        <syncfusion:ButtonAdv.IconTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <materialIcons:MaterialIcon Kind="KeyChange" />
+                                </Grid>
+                            </DataTemplate>
+                        </syncfusion:ButtonAdv.IconTemplate>
+                    </syncfusion:ButtonAdv>
+                    <syncfusion:ButtonAdv
+                        x:Name="CancelCambiarButton"
+                        Margin="10"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Click="CancelCambiarButton_Click"
+                        IconHeight="20"
+                        IconWidth="20"
+                        Label="Cancelar"
+                        SizeMode="Normal">
+                        <syncfusion:ButtonAdv.IconTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <materialIcons:MaterialIcon Kind="ExitToApp" />
+                                </Grid>
+                            </DataTemplate>
+                        </syncfusion:ButtonAdv.IconTemplate>
+                    </syncfusion:ButtonAdv>
+                </StackPanel>
+            </StackPanel>
+
         </StackPanel>
         <StackPanel
+            x:Name="PanelBotones"
             Grid.Row="1"
             Margin="10"
             HorizontalAlignment="Center"

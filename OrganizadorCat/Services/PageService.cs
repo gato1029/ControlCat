@@ -17,6 +17,8 @@ using OrganizadorCat.Views.Proyecto;
 using OrganizadorCat.Views.Usuario;
 using OrganizadorCat.ViewModels.Dashboard;
 using OrganizadorCat.Views.Dashboard;
+using OrganizadorCat.ViewModels.Persona;
+using OrganizadorCat.Views.Persona;
 
 namespace OrganizadorCat.Services
 {
@@ -42,6 +44,7 @@ namespace OrganizadorCat.Services
             Configure<EquipoMainViewModel, EquipoMainPage>();
             Configure<ProyectoMainViewModel, ProyectoMainPage>();
             Configure<AsignacionMainViewModel, AsignacionMainPage>();
+            Configure<PersonaMainViewModel, PersonaMainPage>();
             Configure<InicioViewModel, Inicio>();
         }
 

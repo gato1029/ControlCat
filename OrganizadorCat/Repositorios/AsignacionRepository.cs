@@ -30,13 +30,15 @@ namespace OrganizadorCat.Repositorios
                     proyecto = new Proyecto(asignacion.Proyecto.Id);
                     proyecto.Codigo = asignacion.Proyecto.Codigo;
                     proyecto.Nombre = asignacion.Proyecto.Nombre;
+                    proyecto.Area = asignacion.Proyecto.Area;
                 }
                                 
                 Equipo equipo = new Equipo(asignacion.Equipo.Id);
                 equipo.Nombre = asignacion.Equipo.Nombre;                
 
                 Usuario usuario = new Usuario(asignacion.Usuario.Id);
-                usuario.Nombre = asignacion.Usuario.Nombre;                                
+                usuario.Nombre = asignacion.Usuario.Nombre;        
+                usuario.Area= asignacion.Usuario.Area;
                 asignacion.Usuario = usuario;
                 asignacion.Equipo  = equipo;
                 asignacion.Proyecto = proyecto;
@@ -87,16 +89,23 @@ namespace OrganizadorCat.Repositorios
             var filter = builder.Eq(f => f.Usuario.Id, usuario.Id);
             return _asignacionCollection.Find(filter).ToList();
         }
+        public List<Asignacion> GetAsignacionesPorUsuarioVacaciones(Usuario usuario,DateTime fechaInicio, DateTime fechafin)
+        {
+            var builder = Builders<Asignacion>.Filter;
+            var filter = builder.Eq(f => f.Usuario.Id, usuario.Id) & builder.Eq(f => f.Vacaciones, true) & builder.Gte(f => f.FechaInicio, fechaInicio) & builder.Lte(f => f.FechaFin, fechafin);
+            return _asignacionCollection.Find(filter).ToList();
+        }
+
         public List<Asignacion> GetAsignacionesPorProyecto(Proyecto proyecto)
         {
             var builder = Builders<Asignacion>.Filter;
             var filter = builder.Eq(f => f.Proyecto.Id, proyecto.Id);
             return _asignacionCollection.Find(filter).ToList();
         }
-        public List<Asignacion> GetAsignacionesPorEquipo(Equipo equipo)
+        public List<Asignacion> GetAsignacionesPorEquipo(Equipo equipo,DateTime FechaInicio, DateTime fechafin)
         {
             var builder = Builders<Asignacion>.Filter;
-            var filter = builder.Eq(f => f.Equipo.Id, equipo.Id);
+            var filter = builder.Eq(f => f.Equipo.Id, equipo.Id) & builder.Gte(f => f.FechaInicio, FechaInicio) & builder.Lte(f => f.FechaFin, fechafin); ;
             return _asignacionCollection.Find(filter).ToList();
         }
         public bool UpdateAsignacion(string id, Asignacion asignacion)
@@ -110,6 +119,7 @@ namespace OrganizadorCat.Repositorios
                     proyecto = new Proyecto(asignacion.Proyecto.Id);
                     proyecto.Codigo = asignacion.Proyecto.Codigo;
                     proyecto.Nombre = asignacion.Proyecto.Nombre;
+                    proyecto.Area = asignacion.Proyecto.Area;
                 }
 
                 Equipo equipo = new Equipo(asignacion.Equipo.Id);
@@ -117,6 +127,7 @@ namespace OrganizadorCat.Repositorios
 
                 Usuario usuario = new Usuario(asignacion.Usuario.Id);
                 usuario.Nombre = asignacion.Usuario.Nombre;
+                usuario.Area = asignacion.Usuario.Area;
                 asignacion.Usuario = usuario;
                 asignacion.Equipo = equipo;
                 asignacion.Proyecto = proyecto;

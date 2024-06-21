@@ -11,7 +11,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
     Title="Asignaciones"
-    Width="500"
+    Width="600"
     Height="750"
     AllowsTransparency="True"
     CornerRadius="8"
@@ -33,160 +33,189 @@
         <Converter:EmailValidateConverter x:Key="EmailValidateConverter" />
         <Converter:ValidatorConverter x:Key="ValidatorConverter" />
     </Window.Resources>
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
 
-    <StackPanel Margin="15">
-        <Grid x:Name="RootGrid">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0">
-                <TextBlock Margin="5" Text="Vacaciones:" />
-                <syncfusion:SfTextInputLayout HorizontalAlignment="Left">
-                    <CheckBox
-                        x:Name="XVacaciones"
-                        Checked="Vacaciones_Checked"
-                        Content="Asignar Vacaciones"
-                        Unchecked="Vacaciones_Checked" />
-                </syncfusion:SfTextInputLayout>
-            </StackPanel>
-            <StackPanel x:Name="PanelProyecto" Grid.Row="1">
-                <TextBlock Margin="5" Text="Proyecto:" />
-                <syncfusion:SfTextInputLayout
-                    ErrorForeground="IndianRed"
-                    ErrorText="Ingrese un valor"
-                    Foreground="LightSeaGreen"
-                    HasError="{Binding Equipo.Nombre, Converter={StaticResource StringValidateConverter}}"
-                    Hint="Ingrese el nombre">
-                    <syncfusion:ComboBoxAdv x:Name="ComboProyecto" />
-                </syncfusion:SfTextInputLayout>
-            </StackPanel>
-            <StackPanel Grid.Row="2">
-                <TextBlock Margin="5" Text="Usuario:" />
-                <syncfusion:SfTextInputLayout
-                    ErrorForeground="IndianRed"
-                    ErrorText="Ingrese un valor"
-                    Foreground="LightSeaGreen"
-                    HasError="{Binding Equipo.Nombre, Converter={StaticResource StringValidateConverter}}"
-                    Hint="Ingrese el nombre">
-                    <syncfusion:ComboBoxAdv x:Name="ComboUsuario" />
-                </syncfusion:SfTextInputLayout>
-            </StackPanel>
-            <StackPanel Grid.Row="3" Orientation="Horizontal">
-                <StackPanel>
-                    <TextBlock Margin="5" Text="Horas Asignadas:" />
-                    <syncfusion:SfTextInputLayout
-                        Width="120"
-                        HorizontalAlignment="Left"
-                        ErrorForeground="IndianRed"
-                        Foreground="LightSeaGreen">
-                        <syncfusion:IntegerTextBox x:Name="HorasAsignadas" ValueChanged="HorasAsignadas_ValueChanged" />
+        <StackPanel Margin="15">
+            <Grid x:Name="RootGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <StackPanel x:Name="PanelVacaciones" Grid.Row="0">
+                    <TextBlock Margin="5" Text="Vacaciones:" />
+                    <syncfusion:SfTextInputLayout HorizontalAlignment="Left">
+                        <CheckBox
+                            x:Name="XVacaciones"
+                            Checked="Vacaciones_Checked"
+                            Content="Asignar Vacaciones"
+                            Unchecked="Vacaciones_Checked" />
                     </syncfusion:SfTextInputLayout>
                 </StackPanel>
-                <StackPanel Margin="20,0,0,0">
-                    <TextBlock Margin="5" Text="Color Asignado:" />
-                    <syncfusion:SfTextInputLayout Width="120" HorizontalAlignment="Left">
-                        <syncfusion:ColorPickerPalette x:Name="ColorAsignado" />
-                    </syncfusion:SfTextInputLayout>
-                </StackPanel>
-
-            </StackPanel>
-
-            <StackPanel Grid.Row="4" Orientation="Horizontal">
-
-                <StackPanel>
-                    <TextBlock Margin="5" Text="Fecha Inicio:" />
+                <StackPanel x:Name="PanelProyecto" Grid.Row="1">
+                    <TextBlock Margin="5" Text="Proyecto:" />
                     <syncfusion:SfTextInputLayout
-                        Width="120"
                         ErrorForeground="IndianRed"
-                        Foreground="LightSeaGreen">
-                        <syncfusion:DateTimeEdit x:Name="FechaInicio" DateTimeChanged="FechaInicio_DateTimeChanged" />
-                    </syncfusion:SfTextInputLayout>
-                </StackPanel>
-                <StackPanel Margin="20,0,0,0">
-                    <TextBlock Margin="5" Text="Fecha Termino:" />
-                    <syncfusion:SfTextInputLayout
-                        Width="120"
-                        ErrorForeground="IndianRed"
+                        ErrorText="Ingrese un valor"
                         Foreground="LightSeaGreen"
-                        IsEnabled="False">
-                        <syncfusion:DateTimeEdit x:Name="FechaFin" />
+                        HasError="{Binding Equipo.Nombre, Converter={StaticResource StringValidateConverter}}"
+                        Hint="Ingrese el nombre">
+                        <syncfusion:ComboBoxAdv
+                            x:Name="ComboProyecto"
+                            AutoCompleteMode="Suggest"
+                            IsEditable="True" />
                     </syncfusion:SfTextInputLayout>
                 </StackPanel>
-            </StackPanel>
+                <StackPanel Grid.Row="2">
+                    <TextBlock Margin="5" Text="Usuario:" />
+                    <syncfusion:SfTextInputLayout
+                        ErrorForeground="IndianRed"
+                        ErrorText="Ingrese un valor"
+                        Foreground="LightSeaGreen"
+                        HasError="{Binding Equipo.Nombre, Converter={StaticResource StringValidateConverter}}"
+                        Hint="Ingrese el nombre">
+                        <syncfusion:ComboBoxAdv x:Name="ComboUsuario" />
+                    </syncfusion:SfTextInputLayout>
+                </StackPanel>
+                <StackPanel Grid.Row="3" Orientation="Horizontal">
+                    <StackPanel>
+                        <TextBlock Margin="5" Text="Horas Asignadas:" />
+                        <syncfusion:SfTextInputLayout
+                            Width="120"
+                            HorizontalAlignment="Left"
+                            ErrorForeground="IndianRed"
+                            Foreground="LightSeaGreen">
+                            <syncfusion:IntegerTextBox x:Name="HorasAsignadas" ValueChanged="HorasAsignadas_ValueChanged" />
+                        </syncfusion:SfTextInputLayout>
+                    </StackPanel>
+                    <StackPanel Margin="20,0,0,0">
+                        <TextBlock Margin="5" Text="Color Asignado:" />
+                        <syncfusion:SfTextInputLayout Width="120" HorizontalAlignment="Left">
+                            <syncfusion:ColorPickerPalette x:Name="ColorAsignado" />
+                        </syncfusion:SfTextInputLayout>
+                    </StackPanel>
 
-            <StackPanel x:Name="PanelComentario" Grid.Row="5">
-                <TextBlock Margin="5" Text="Comentario:" />
-                <syncfusion:SfTextInputLayout
-                    ErrorForeground="IndianRed"
-                    ErrorText="Ingrese un comentario"
-                    Foreground="LightSeaGreen"
-                    HasError="{Binding Equipo.Nombre, Converter={StaticResource StringValidateConverter}}"
-                    Hint="Si tiene algun comentario Ingresarlo.">
-                    <TextBox x:Name="Comentario" />
-                </syncfusion:SfTextInputLayout>
-            </StackPanel>
-            <StackPanel
-                Grid.Row="6"
-                HorizontalAlignment="Center"
-                Orientation="Horizontal">
-                <StackPanel
-                    Margin="10"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Bottom"
-                    Orientation="Horizontal">
-                    <syncfusion:ButtonAdv
-                        x:Name="GuardarButton"
-                        Margin="10"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        Click="GuardarButton_Click"
-                        IconHeight="50"
-                        IconWidth="50"
-                        Label="Guardar"
-                        SizeMode="Large">
-                        <syncfusion:ButtonAdv.IconTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <materialIcons:MaterialIcon Kind="CloudArrowUp" />
-                                </Grid>
-                            </DataTemplate>
-                        </syncfusion:ButtonAdv.IconTemplate>
-                    </syncfusion:ButtonAdv>
+                    <StackPanel x:Name="PanelComboAccion" Margin="20,0,0,0">
+                        <TextBlock Margin="5" Text="Accion a Realizar:" />
+                        <syncfusion:SfTextInputLayout
+                            Width="150"
+                            HorizontalAlignment="Left"
+                            ErrorForeground="IndianRed"
+                            ErrorText="Seleccione que hara en el proyecto:"
+                            Foreground="LightSeaGreen"
+                            Hint="Seleccione una Accion">
+                            <syncfusion:ComboBoxAdv x:Name="ComboAccion" SelectionChanged="ComboAccion_SelectionChanged" />
+                        </syncfusion:SfTextInputLayout>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Grid.Row="4" Orientation="Horizontal">
+
+                    <StackPanel>
+                        <TextBlock Margin="5" Text="Fecha Inicio:" />
+                        <syncfusion:SfTextInputLayout
+                            Width="120"
+                            ErrorForeground="IndianRed"
+                            Foreground="LightSeaGreen">
+                            <syncfusion:DateTimeEdit x:Name="FechaInicio" DateTimeChanged="FechaInicio_DateTimeChanged" />
+                        </syncfusion:SfTextInputLayout>
+                    </StackPanel>
+                    <StackPanel Margin="20,0,0,0">
+                        <TextBlock Margin="5" Text="Fecha Termino:" />
+                        <syncfusion:SfTextInputLayout
+                            Width="120"
+                            ErrorForeground="IndianRed"
+                            Foreground="LightSeaGreen"
+                            IsEnabled="False">
+                            <syncfusion:DateTimeEdit x:Name="FechaFin" />
+                        </syncfusion:SfTextInputLayout>
+                    </StackPanel>
+                    <StackPanel x:Name="PanelPorcentaje" Margin="20,0,0,0">
+                        <TextBlock Margin="5" Text="Porcentaje de Avance:" />
+                        <syncfusion:SfTextInputLayout
+                            Width="120"
+                            ErrorForeground="IndianRed"
+                            Foreground="LightSeaGreen"
+                            IsEnabled="true">
+                            <syncfusion:IntegerTextBox x:Name="Porcentaje" />
+                        </syncfusion:SfTextInputLayout>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel x:Name="PanelComentario" Grid.Row="5">
+                    <TextBlock Margin="5" Text="Comentario:" />
+                    <syncfusion:SfTextInputLayout
+                        ErrorForeground="IndianRed"
+                        ErrorText="Ingrese un comentario"
+                        Foreground="LightSeaGreen"
+                        HasError="{Binding Equipo.Nombre, Converter={StaticResource StringValidateConverter}}"
+                        Hint="Si tiene algun comentario Ingresarlo.">
+                        <TextBox x:Name="Comentario" />
+                    </syncfusion:SfTextInputLayout>
                 </StackPanel>
                 <StackPanel
-                    Margin="10"
+                    Grid.Row="6"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Bottom"
                     Orientation="Horizontal">
-                    <syncfusion:ButtonAdv
-                        x:Name="EliminarButton"
+                    <StackPanel
                         Margin="10"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        Click="EliminarButton_Click"
-                        IconHeight="50"
-                        IconWidth="50"
-                        Label="Eliminar"
-                        SizeMode="Large">
-                        <syncfusion:ButtonAdv.IconTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <materialIcons:MaterialIcon Kind="CloudCancel" />
-                                </Grid>
-                            </DataTemplate>
-                        </syncfusion:ButtonAdv.IconTemplate>
-                    </syncfusion:ButtonAdv>
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Bottom"
+                        Orientation="Horizontal">
+                        <syncfusion:ButtonAdv
+                            x:Name="GuardarButton"
+                            Margin="10"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Click="GuardarButton_Click"
+                            IconHeight="50"
+                            IconWidth="50"
+                            Label="Guardar"
+                            SizeMode="Large">
+                            <syncfusion:ButtonAdv.IconTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <materialIcons:MaterialIcon Kind="CloudArrowUp" />
+                                    </Grid>
+                                </DataTemplate>
+                            </syncfusion:ButtonAdv.IconTemplate>
+                        </syncfusion:ButtonAdv>
+                    </StackPanel>
+                    <StackPanel
+                        Margin="10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Bottom"
+                        Orientation="Horizontal">
+                        <syncfusion:ButtonAdv
+                            x:Name="EliminarButton"
+                            Margin="10"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Click="EliminarButton_Click"
+                            IconHeight="50"
+                            IconWidth="50"
+                            Label="Eliminar"
+                            SizeMode="Large">
+                            <syncfusion:ButtonAdv.IconTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <materialIcons:MaterialIcon Kind="CloudCancel" />
+                                    </Grid>
+                                </DataTemplate>
+                            </syncfusion:ButtonAdv.IconTemplate>
+                        </syncfusion:ButtonAdv>
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
 
-        </Grid>
-    </StackPanel>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+
+
 </syncfusion:ChromelessWindow>

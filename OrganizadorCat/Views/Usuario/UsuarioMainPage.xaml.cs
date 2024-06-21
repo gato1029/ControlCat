@@ -1,4 +1,6 @@
-﻿using OrganizadorCat.ViewModels.Usuario;
+﻿using BTCat.Generico;
+using OrganizadorCat.Repositorios;
+using OrganizadorCat.ViewModels.Usuario;
 using Syncfusion.SfSkinManager;
 using System;
 using System.Collections.Generic;
@@ -32,8 +34,37 @@ namespace OrganizadorCat.Views.Usuario
             DataContext = viewModelExt;
             
             SfSkinManager.SetTheme(this, new Theme(themeName));
+            //feriados();
         }
 
+        public void feriados()
+        {
+            var dbContext = MongoDBContext.Instance;
+            var _feriadosRepository = new FeriadosRepository(dbContext);
+
+            Models.Feriados data = new Models.Feriados();
+            data.Pais = "PERU";
+             var fechas = new List<DateTime>();
+            fechas.Add(new DateTime(2024, 6, 5));
+            fechas.Add(new DateTime(2024,6, 29));
+            fechas.Add(new DateTime(2024,7, 23));
+            
+            fechas.Add(new DateTime(2024,7, 28));
+            fechas.Add(new DateTime(2024, 7, 29));
+
+            fechas.Add(new DateTime(2024,8, 6));
+            fechas.Add(new DateTime(2024, 8, 30));
+            
+            fechas.Add(new DateTime(2024, 10, 8));
+
+            fechas.Add(new DateTime(2024, 11, 1));
+
+            fechas.Add(new DateTime(2024, 12, 8));
+            fechas.Add(new DateTime(2024, 12, 25));
+
+            data.Fechas = fechas;
+            _feriadosRepository.InsertFeriados(data);
+        }
        
     }
 }

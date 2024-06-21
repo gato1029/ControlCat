@@ -45,6 +45,7 @@ namespace OrganizadorCat.ViewModels.Usuario
         public UsuarioViewModel()
         {
             _usuario = new Models.Usuario();
+            _usuario.Area = "General";
             Usuario.Privilegios = new System.Collections.Generic.List<string>();
             InitCommandos();
         }
@@ -52,7 +53,7 @@ namespace OrganizadorCat.ViewModels.Usuario
         {            
             _usuario = usuario;
             InitCommandos();
-
+            
             selectedPrivilegios = Utilitarios.ListToObservable(usuario.Privilegios);
             
         }
@@ -65,13 +66,9 @@ namespace OrganizadorCat.ViewModels.Usuario
             
             _itemsPrivilegios = new ObservableCollection<string>();
             SelectedPrivilegios = new ObservableCollection<object>();
-            _itemsPrivilegios.Add("Gato");
-            _itemsPrivilegios.Add("Perro");
-            _itemsPrivilegios.Add("Pato");
-            _itemsPrivilegios.Add("Pato2");
-            _itemsPrivilegios.Add("Pato3");
-            _itemsPrivilegios.Add("Pato4");
-            _itemsPrivilegios.Add("Pato5");
+            _itemsPrivilegios.Add("Referente");
+            _itemsPrivilegios.Add("Referente Apoyo");
+            _itemsPrivilegios.Add("Desarrollador");            
         }
         private bool CanGuardar(string id)
         {
@@ -96,9 +93,25 @@ namespace OrganizadorCat.ViewModels.Usuario
                 else
                 {
                     // Actualizar usuario existente
+                   
+                    var dbContext = MongoDBContext.Instance;
+                    var equipoRepository = new EquipoRepository(dbContext);
+
+                    var equipo = equipoRepository.GetEquiposPorUsuario(Usuario);
+
                     Usuario.Privilegios = Utilitarios.ObservableToList<string>(selectedPrivilegios);
                     if (_usuarioRepository.UpdateUsuario(id, Usuario))
                     {
+                        foreach (var item in equipo)
+                        {
+                            equipoRepository.UpdateEquipoCampo(item.Id, Usuario);
+                            if (item.Id == EquipoActual.Instance.EquipoVigente.Id)
+                            {
+                                EquipoActual.SetearEquipo(equipoRepository.GetEquipoById(item.Id.ToString()));
+                            }
+                        }
+
+                       
                         _coleccion.Remove(Usuario);
                         _coleccion.Add(Usuario);
                         _window.Close();
